@@ -1,0 +1,98 @@
+[
+  {
+    "type": "singleline",
+    "format": {
+      "start": "#"
+    },
+    "contents": [
+      {
+        "line": 1,
+        "column": {
+          "start": 0,
+          "end": 66
+        },
+        "value": "# SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "#"
+    },
+    "contents": [
+      {
+        "line": 2,
+        "column": {
+          "start": 0,
+          "end": 34
+        },
+        "value": "# SPDX-License-Identifier: CC0-1.0"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "#"
+    },
+    "contents": [
+      {
+        "line": 5,
+        "column": {
+          "start": 15,
+          "end": 37
+        },
+        "value": "# TODO: make this true"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "#"
+    },
+    "contents": [
+      {
+        "line": 9,
+        "column": {
+          "start": 0,
+          "end": 35
+        },
+        "value": "# Not sure whether we needed a full"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "#"
+    },
+    "contents": [
+      {
+        "line": 10,
+        "column": {
+          "start": 0,
+          "end": 41
+        },
+        "value": "# YAML file for this simple configuration"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "#"
+    },
+    "contents": [
+      {
+        "line": 11,
+        "column": {
+          "start": 0,
+          "end": 23
+        },
+        "value": "# but it's here anyway."
+      }
+    ]
+  }
+]

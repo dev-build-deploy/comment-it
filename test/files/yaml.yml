@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>
+# SPDX-License-Identifier: CC0-1.0
+
+foo: {
+  bar: false,  # TODO: make this true
+  baz: true
+}
+
+# Not sure whether we needed a full
+# YAML file for this simple configuration
+# but it's here anyway.
+

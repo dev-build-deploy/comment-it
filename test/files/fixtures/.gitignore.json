@@ -1,0 +1,50 @@
+[
+  {
+    "type": "singleline",
+    "format": {
+      "start": "#"
+    },
+    "contents": [
+      {
+        "line": 1,
+        "column": {
+          "start": 0,
+          "end": 66
+        },
+        "value": "# SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "#"
+    },
+    "contents": [
+      {
+        "line": 2,
+        "column": {
+          "start": 0,
+          "end": 34
+        },
+        "value": "# SPDX-License-Identifier: CC0-1.0"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "#"
+    },
+    "contents": [
+      {
+        "line": 6,
+        "column": {
+          "start": 0,
+          "end": 16
+        },
+        "value": "# More things..!"
+      }
+    ]
+  }
+]
