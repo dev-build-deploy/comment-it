@@ -1,0 +1,60 @@
+[
+  {
+    "type": "multiline",
+    "format": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "contents": [
+      {
+        "line": 1,
+        "column": {
+          "start": 0,
+          "end": 4
+        },
+        "value": "<!--"
+      },
+      {
+        "line": 2,
+        "column": {
+          "start": 0,
+          "end": 64
+        },
+        "value": "SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>"
+      },
+      {
+        "line": 3,
+        "column": {
+          "start": 0,
+          "end": 32
+        },
+        "value": "SPDX-License-Identifier: CC0-1.0"
+      },
+      {
+        "line": 4,
+        "column": {
+          "start": 0,
+          "end": 3
+        },
+        "value": "-->"
+      }
+    ]
+  },
+  {
+    "type": "multiline",
+    "format": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "contents": [
+      {
+        "line": 10,
+        "column": {
+          "start": 0,
+          "end": 57
+        },
+        "value": "<!--- Guess we need to go back to the drawing board? --->"
+      }
+    ]
+  }
+]

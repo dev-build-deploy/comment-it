@@ -1,0 +1,303 @@
+[
+  {
+    "type": "multiline",
+    "format": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "contents": [
+      {
+        "line": 1,
+        "column": {
+          "start": 0,
+          "end": 2
+        },
+        "value": "/*"
+      },
+      {
+        "line": 2,
+        "column": {
+          "start": 0,
+          "end": 64
+        },
+        "value": "SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>"
+      },
+      {
+        "line": 3,
+        "column": {
+          "start": 0,
+          "end": 32
+        },
+        "value": "SPDX-License-Identifier: CC0-1.0"
+      },
+      {
+        "line": 4,
+        "column": {
+          "start": 0,
+          "end": 2
+        },
+        "value": "*/"
+      }
+    ]
+  },
+  {
+    "type": "multiline",
+    "format": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "contents": [
+      {
+        "line": 6,
+        "column": {
+          "start": 13,
+          "end": 34
+        },
+        "value": "/* Strange comment */"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "//"
+    },
+    "contents": [
+      {
+        "line": 6,
+        "column": {
+          "start": 35,
+          "end": 51
+        },
+        "value": "// It really is!"
+      }
+    ]
+  },
+  {
+    "type": "multiline",
+    "format": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "contents": [
+      {
+        "line": 8,
+        "column": {
+          "start": 0,
+          "end": 3
+        },
+        "value": "/**"
+      },
+      {
+        "line": 9,
+        "column": {
+          "start": 0,
+          "end": 27
+        },
+        "value": " * This is a Fake interface"
+      },
+      {
+        "line": 10,
+        "column": {
+          "start": 0,
+          "end": 28
+        },
+        "value": " * @interface IFakeInterface"
+      },
+      {
+        "line": 11,
+        "column": {
+          "start": 0,
+          "end": 18
+        },
+        "value": " * @member foo Foo"
+      },
+      {
+        "line": 12,
+        "column": {
+          "start": 0,
+          "end": 18
+        },
+        "value": " * @member bar Bar"
+      },
+      {
+        "line": 13,
+        "column": {
+          "start": 0,
+          "end": 12
+        },
+        "value": " * @internal"
+      },
+      {
+        "line": 14,
+        "column": {
+          "start": 0,
+          "end": 3
+        },
+        "value": " */"
+      }
+    ]
+  },
+  {
+    "type": "multiline",
+    "format": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "contents": [
+      {
+        "line": 20,
+        "column": {
+          "start": 0,
+          "end": 3
+        },
+        "value": "/**"
+      },
+      {
+        "line": 21,
+        "column": {
+          "start": 0,
+          "end": 15
+        },
+        "value": " * This does it"
+      },
+      {
+        "line": 22,
+        "column": {
+          "start": 0,
+          "end": 17
+        },
+        "value": " * @function doIt"
+      },
+      {
+        "line": 23,
+        "column": {
+          "start": 0,
+          "end": 17
+        },
+        "value": " * @param foobar "
+      },
+      {
+        "line": 24,
+        "column": {
+          "start": 0,
+          "end": 3
+        },
+        "value": " * "
+      },
+      {
+        "line": 25,
+        "column": {
+          "start": 0,
+          "end": 40
+        },
+        "value": " * // TODO: Do something with foobar.foo"
+      },
+      {
+        "line": 26,
+        "column": {
+          "start": 0,
+          "end": 3
+        },
+        "value": " */"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "//"
+    },
+    "contents": [
+      {
+        "line": 27,
+        "column": {
+          "start": 0,
+          "end": 61
+        },
+        "value": "// eslint-disable-next-line @typescript-eslint/no-unused-vars"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "//"
+    },
+    "contents": [
+      {
+        "line": 29,
+        "column": {
+          "start": 2,
+          "end": 41
+        },
+        "value": "// For now, we are just going to log it"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "//"
+    },
+    "contents": [
+      {
+        "line": 30,
+        "column": {
+          "start": 2,
+          "end": 42
+        },
+        "value": "// However, we intend to implement a bit"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "//"
+    },
+    "contents": [
+      {
+        "line": 31,
+        "column": {
+          "start": 2,
+          "end": 24
+        },
+        "value": "// logic later onwards"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "//"
+    },
+    "contents": [
+      {
+        "line": 32,
+        "column": {
+          "start": 27,
+          "end": 64
+        },
+        "value": "// TODO: Do something with foobar.foo"
+      }
+    ]
+  },
+  {
+    "type": "multiline",
+    "format": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "contents": [
+      {
+        "line": 34,
+        "column": {
+          "start": 2,
+          "end": 39
+        },
+        "value": "/* This is the end of the function */"
+      }
+    ]
+  }
+]

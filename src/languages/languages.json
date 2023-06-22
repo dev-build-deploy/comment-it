@@ -1,0 +1,31 @@
+{
+  "languages": [
+    {
+      "name": "Javascript",
+      "extensions": [ ".js" ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "//"
+    },
+    {
+      "name": "Markdown",
+      "extensions": [".md", ".mkd", ".mdwn", ".mdown", ".markdown"],
+      "multiline": { "start": "<!--", "end": "-->" }
+    },
+    {
+      "name": "Plain Text",
+      "filenames": [ ".gitignore", "CODEOWNERS" ],
+      "singleline": "#"
+    },
+    {
+      "name": "Typescript",
+      "extensions": [ ".ts" ],
+      "multiline": { "start": "/*", "end": "*/"},
+      "singleline": "//"
+    },
+    {
+      "name": "YAML Ain't Markup Language",
+      "extensions": [".yaml", ".yml"],
+      "singleline": "#"
+    }
+  ]
+}
