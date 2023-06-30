@@ -18,7 +18,6 @@ permissions:
 
 jobs:
   unit-test:
-    needs: check-lib
     uses: ./.github/workflows/validate.yml
 
   reuse-me:
