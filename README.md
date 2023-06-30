@@ -21,7 +21,7 @@ Extract comment blocks from your files.
 import { extractComments } from "@dev-build-deploy/comment-it";
 
 // Retrieve each comment block using an iterator
-for await (const comment of extractComments("README.md")) {
+for await (const comment of extractComments("README.md"), /* OPTIONAL */ { maxLines: 20 }) {
   console.log(JSON.stringify(comment, null, 2))
 }
 ```
@@ -48,9 +48,6 @@ This will result in [IComment](#comment-interface) objects, considering the abov
     { "line": 16, "column": { "start": 0, "end": 45 }, "value": "<!-- Hee hee, hid a comment block in here -->" }
   ]
 }
-
-...
-
 ```
 <!-- REUSE-IgnoreEnd -->
 

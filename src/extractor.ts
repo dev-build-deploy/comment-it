@@ -6,7 +6,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 import fs from "fs";
 import readline from "readline";
 import { getLanguage } from "./languages";
-import { IComment, ILanguageTokens } from "./interfaces";
+import { IComment, IExtractorOptions, ILanguageTokens } from "./interfaces";
 
 /**
  * A token that was found in the line
@@ -50,7 +50,7 @@ function* tokenize(languageTokens: ILanguageTokens, line: string): Generator<Tok
  * @param filePath The path to the file to extract comments from
  * @returns An async generator that yields comments
  */
-export async function* extractComments(filePath: string): AsyncGenerator<IComment> {
+export async function* extractComments(filePath: string, options?: IExtractorOptions): AsyncGenerator<IComment> {
   let currentComment: IComment | undefined;
   const language = getLanguage(filePath);
   let lineNumber = 1;
@@ -139,5 +139,8 @@ export async function* extractComments(filePath: string): AsyncGenerator<ICommen
     }
 
     lineNumber++;
+
+    // Break the sequence if the maxLines option is provided
+    if (options?.maxLines && lineNumber > options.maxLines) break;
   }
 }

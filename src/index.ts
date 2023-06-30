@@ -4,4 +4,4 @@ SPDX-License-Identifier: GPL-3.0-or-later
 */
 
 export { extractComments } from "./extractor";
-export { IComment } from "./interfaces";
+export { IComment, IExtractorOptions } from "./interfaces";
