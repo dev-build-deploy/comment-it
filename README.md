@@ -20,9 +20,14 @@ Extract comment blocks from your files.
 ```typescript
 import { extractComments } from "@dev-build-deploy/comment-it";
 
-// Retrieve each comment block using an iterator
-for await (const comment of extractComments("README.md"), /* OPTIONAL */ { maxLines: 20 }) {
-  console.log(JSON.stringify(comment, null, 2))
+const file = "README.md";
+
+// Check if the file is supported by CommentIt
+if (isSupported(file)) {
+  // Retrieve each comment block using an iterator
+  for await (const comment of extractComments(file), /* OPTIONAL */ { maxLines: 20 }) {
+    console.log(JSON.stringify(comment, null, 2))
+  }
 }
 ```
 
