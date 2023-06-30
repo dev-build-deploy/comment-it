@@ -17,8 +17,16 @@ permissions:
   contents: write
 
 jobs:
+  unit-test:
+    needs: check-lib
+    uses: ./.github/workflows/validate.yml
+
+  reuse-me:
+    uses: ./.github/workflows/copyright.yml
+
   release-me:
     name: Create GitHub Release
+    needs: ["reuse-me", "unit-test"]
     runs-on: ubuntu-latest
     outputs:
       created: ${{ steps.release.outputs.created }}
@@ -30,9 +38,11 @@ jobs:
         uses: dev-build-deploy/release-me@v0
         with:
           token: ${{ github.token }}
+          artifacts: |
+            ReuseMe SBOM
 
-  release-action:
-    name: Release GitHub Action
+  publish-package:
+    name: Publish NPM Package
     runs-on: ubuntu-latest
     needs: release-me
     if: needs.release-me.outputs.created
