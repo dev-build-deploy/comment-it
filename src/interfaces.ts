@@ -86,3 +86,13 @@ export interface ILanguageTokens {
   multilineStart: string | undefined;
   multilineEnd: string | undefined;
 }
+
+/**
+ * Extractor options
+ * @interface IExtractorOptions
+ * @member maxLines The maximum amount of lines to extract comments from
+ */
+export interface IExtractorOptions {
+  /** The maximum amount of lines to extract comments from */
+  maxLines?: number;
+}

@@ -22,3 +22,21 @@ describe("Languages", () => {
     }
   });
 });
+
+describe("Extractor options", () => {
+  test("Maximum number of lines", async () => {
+    const fixture = JSON.parse(fs.readFileSync(`test/files/fixtures/typescript.ts.json`, "utf8"));
+    for (const [lines, expectatios] of [
+      [5, 1],
+      [10, 3],
+      [9000, 11],
+    ]) {
+      let index = 0;
+      for await (const comment of extractComments(`test/files/typescript.ts`, { maxLines: lines })) {
+        expect(comment).toStrictEqual(fixture[index]);
+        index++;
+      }
+      expect(index).toBe(expectatios);
+    }
+  });
+});
