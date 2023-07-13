@@ -17,7 +17,7 @@ function getLanguageMatches(file: string): ILanguage[] {
   const matches = (languages as ILanguage[]).filter(
     language => language.extensions?.includes(extension) || language.filenames?.includes(path.basename(file))
   );
-  return matches
+  return matches;
 }
 
 /**
@@ -27,7 +27,7 @@ function getLanguageMatches(file: string): ILanguage[] {
  * @internal
  */
 export function getLanguage(file: string): ILanguageTokens {
-  const matches = getLanguageMatches(file)
+  const matches = getLanguageMatches(file);
   if (matches.length === 0) throw new Error(`Language for file '${file}' not found`);
   if (matches.length > 1) throw new Error(`Multiple languages for file '${file}' found`);
   const language = matches[0];
