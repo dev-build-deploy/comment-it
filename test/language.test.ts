@@ -15,9 +15,9 @@ describe("Languages", () => {
       [".gitignore", true],
       ["test.yml", true],
       ["test.yaml", true],
-      ["not-supported.this", false]
+      ["not-supported.this", false],
     ]) {
       expect(isSupported(file as string)).toBe(expectations);
     }
-  })
-})
+  });
+});
