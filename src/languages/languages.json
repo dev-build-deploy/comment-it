@@ -81,6 +81,12 @@
       "multiline": { "start": "<!--", "end": "-->" }
     },
     {
+      "name": "Nix",
+      "extensions": [ ".nix" ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "#"
+    },
+    {
       "name": "Plain Text",
       "filenames": [ ".gitignore", "CODEOWNERS" ],
       "singleline": "#"
