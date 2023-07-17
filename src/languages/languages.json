@@ -86,6 +86,12 @@
       "singleline": "#"
     },
     {
+      "name": "PHP",
+      "extensions": [ ".php" ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "//"
+    },
+    {
       "name": "Python",
       "extensions": [ ".py" ],
       "multiline": { "start": "\"\"\"", "end": "\"\"\"" },
