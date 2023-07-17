@@ -13,23 +13,13 @@
     },
     {
       "name": "C",
-      "extensions": [".c", ".h"],
+      "extensions": [ ".c", ".h" ],
       "multiline": { "start": "/*", "end": "*/" },
       "singleline": "//"
     },
     {
       "name": "C++",
-      "extensions": [
-        ".cpp",
-        ".hpp",
-        ".c++",
-        ".h++",
-        ".cc",
-        ".hh",
-        ".cxx",
-        ".hxx",
-        ".inl"
-      ],
+      "extensions": [ ".cpp", ".cc", ".cxx", ".hpp", ".hh", ".hxx" ],
       "multiline": { "start": "/*", "end": "*/" },
       "singleline": "//"
     },
@@ -44,6 +34,12 @@
       "extensions": [ ".cmake" ],
       "multiline": { "start": "#[[", "end": "]]" },
       "singleline": "#"
+    },
+    {
+      "name": "Dart",
+      "extensions": [ ".dart" ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "//"
     },
     {
       "name": "Go",
