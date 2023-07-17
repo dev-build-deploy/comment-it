@@ -1,6 +1,12 @@
 {
   "languages": [
     {
+      "name": "Asciidoc",
+      "extensions": [".asciidoc", ".adoc", ".asc"],
+      "multiline": { "start": "////", "end": "////" },
+      "singleline": "//"
+    },
+    {
       "name": "AWK",
       "extensions": [".awk"],
       "singleline":"#"
