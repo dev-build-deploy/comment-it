@@ -80,6 +80,12 @@
       "singleline": "#"
     },
     {
+      "name": "Python",
+      "extensions": [ ".py" ],
+      "multiline": { "start": "\"\"\"", "end": "\"\"\"" },
+      "singleline": "#"
+    },
+    {
       "name": "Typescript",
       "extensions": [ ".ts" ],
       "multiline": { "start": "/*", "end": "*/"},
