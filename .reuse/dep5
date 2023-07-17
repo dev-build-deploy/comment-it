@@ -5,7 +5,7 @@ Source: https://github.com/dev-build-deploy/comment-it
 
 Files: test/files/*
 Copyright: 2023 Kevin de Jong <monkaii@hotmail.com>
-License: GPL-3.0-or-later
+License: MIT
 
 Files: tsconfig*.json
 Copyright: 2023 Kevin de Jong <monkaii@hotmail.com>
