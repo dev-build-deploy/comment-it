@@ -1,6 +1,11 @@
 {
   "languages": [
     {
+      "name": "AWK",
+      "extensions": [".awk"],
+      "singleline":"#"
+    },
+    {
       "name": "Javascript",
       "extensions": [ ".js" ],
       "multiline": { "start": "/*", "end": "*/" },
