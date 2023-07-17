@@ -18,6 +18,12 @@
       "singleline": "//"
     },
     {
+      "name": "CMake",
+      "extensions": [".cmake"],
+      "multiline": { "start": "#[[", "end": "]]" },
+      "singleline": "#"
+    },
+    {
       "name": "Javascript",
       "extensions": [ ".js" ],
       "multiline": { "start": "/*", "end": "*/" },
