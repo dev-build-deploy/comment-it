@@ -98,6 +98,12 @@
       "singleline": "#"
     },
     {
+      "name": "Ruby",
+      "extensions": [ ".rb" ],
+      "multiline": { "start": "=begin", "end": "=end" },
+      "singleline": "#"
+    },
+    {
       "name": "Swift",
       "extensions": [ ".swift" ],
       "multiline": { "start": "/*", "end": "*/" },
