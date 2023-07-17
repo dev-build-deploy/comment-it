@@ -11,7 +11,7 @@ Extract comment blocks from your files.
 
 * Simple to use
 * Extracts single- and multiline- comment blocks
-* Supports a small selection of [languages](./src/languages/languages.json)
+* Supports range of [languages](./src/languages/languages.json) covering the top 25 languages used in GitHub (+ more)
 
 <!-- Hee hee, hid a comment block in here -->
 
