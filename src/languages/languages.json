@@ -116,6 +116,12 @@
       "singleline": "//"
     },
     {
+      "name": "Scala",
+      "extensions": [ ".scala" ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "//"
+    },
+    {
       "name": "Shell",
       "extensions": [ ".sh" ],
       "singleline": "#"
