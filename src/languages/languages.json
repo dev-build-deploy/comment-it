@@ -18,7 +18,7 @@
       "singleline": "//"
     },
     {
-      "name": "CPP",
+      "name": "C++",
       "extensions": [
         ".cpp",
         ".hpp",
@@ -30,6 +30,12 @@
         ".hxx",
         ".inl"
       ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "//"
+    },
+    {
+      "name": "C#",
+      "extensions": [ ".cs" ],
       "multiline": { "start": "/*", "end": "*/" },
       "singleline": "//"
     },
