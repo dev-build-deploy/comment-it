@@ -41,9 +41,15 @@
     },
     {
       "name": "CMake",
-      "extensions": [".cmake"],
+      "extensions": [ ".cmake" ],
       "multiline": { "start": "#[[", "end": "]]" },
       "singleline": "#"
+    },
+    {
+      "name": "Groovy",
+      "extensions": [ ".groovy", ".gvy", ".gy", ".gsh" ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "//"
     },
     {
       "name": "Javascript",
