@@ -104,6 +104,11 @@
       "singleline": "#"
     },
     {
+      "name": "Shell",
+      "extensions": [ ".sh" ],
+      "singleline": "#"
+    },
+    {
       "name": "Swift",
       "extensions": [ ".swift" ],
       "multiline": { "start": "/*", "end": "*/" },
