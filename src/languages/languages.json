@@ -89,6 +89,12 @@
       "singleline": "#"
     },
     {
+      "name": "Objective-C",
+      "extensions": [ ".m", ".mm" ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "//"
+    },
+    {
       "name": "Plain Text",
       "filenames": [ ".gitignore", "CODEOWNERS" ],
       "singleline": "#"
