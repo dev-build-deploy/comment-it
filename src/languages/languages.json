@@ -72,6 +72,12 @@
       "singleline": "//"
     },
     {
+      "name": "LUA",
+      "extensions": [ ".lua" ],
+      "multiline": { "start": "--[[", "end": "]]" },
+      "singleline": "--"
+    },
+    {
       "name": "Markdown",
       "extensions": [".md", ".mkd", ".mdwn", ".mdown", ".markdown"],
       "multiline": { "start": "<!--", "end": "-->" }
