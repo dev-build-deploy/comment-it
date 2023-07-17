@@ -52,6 +52,12 @@
       "singleline": "//"
     },
     {
+      "name": "Java",
+      "extensions": [ ".java" ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "//"
+    },
+    {
       "name": "Javascript",
       "extensions": [ ".js" ],
       "multiline": { "start": "/*", "end": "*/" },
