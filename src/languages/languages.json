@@ -110,6 +110,12 @@
       "singleline": "#"
     },
     {
+      "name": "Rust",
+      "extensions": [ ".rs" ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "//"
+    },
+    {
       "name": "Shell",
       "extensions": [ ".sh" ],
       "singleline": "#"
