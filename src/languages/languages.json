@@ -46,6 +46,12 @@
       "singleline": "#"
     },
     {
+      "name": "Go",
+      "extensions": [ ".go" ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "//"
+    },
+    {
       "name": "Groovy",
       "extensions": [ ".groovy", ".gvy", ".gy", ".gsh" ],
       "multiline": { "start": "/*", "end": "*/" },
