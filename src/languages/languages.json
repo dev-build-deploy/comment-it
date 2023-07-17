@@ -12,6 +12,12 @@
       "singleline":"#"
     },
     {
+      "name": "C",
+      "extensions": [".c", ".h"],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "//"
+    },
+    {
       "name": "Javascript",
       "extensions": [ ".js" ],
       "multiline": { "start": "/*", "end": "*/" },
