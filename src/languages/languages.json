@@ -94,6 +94,12 @@
       "singleline": "#"
     },
     {
+      "name": "Perl",
+      "extensions": [ ".pl", ".pm" ],
+      "multiline": { "start": "=pod", "end": "=cut" },
+      "singleline": "#"
+    },
+    {
       "name": "PHP",
       "extensions": [ ".php" ],
       "multiline": { "start": "/*", "end": "*/" },
