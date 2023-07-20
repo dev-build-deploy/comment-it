@@ -96,7 +96,7 @@
     },
     {
       "name": "Plain Text",
-      "filenames": [ ".gitignore", "CODEOWNERS" ],
+      "filenames": [ ".gitattributes", ".gitignore", "CODEOWNERS" ],
       "singleline": "#"
     },
     {
