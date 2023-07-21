@@ -36,6 +36,9 @@ export function getLanguage(file: string): ILanguageTokens {
     singleline: language.singleline,
     multilineStart: language.multiline?.start,
     multilineEnd: language.multiline?.end,
+    singleQuote: language.singleQuote ? "'" : undefined,
+    doubleQuote: language.doubleQuote ? '"' : undefined,
+    backtick: language.backtick ? "`" : undefined,
   };
 }
 

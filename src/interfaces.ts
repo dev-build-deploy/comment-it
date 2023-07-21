@@ -62,7 +62,9 @@ interface IMultiLineComment {
  * @member filenames List of filenames
  * @member multiline Multiline comment
  * @member singleline Single line comment
- * @member quotes List of characters which can be used to quote strings
+ * @member singleQuote Whether single quotes are used for strings
+ * @member doubleQuote Whether double quotes are used for strings
+ * @member backtick Whether backticks are used for strings
  * @internal
  */
 export interface ILanguage {
@@ -71,6 +73,9 @@ export interface ILanguage {
   filenames?: string[];
   multiline?: IMultiLineComment;
   singleline?: string;
+  singleQuote?: boolean;
+  doubleQuote?: boolean;
+  backtick?: boolean;
 }
 
 /**
@@ -79,12 +84,18 @@ export interface ILanguage {
  * @member singleline The singleline comment token
  * @member multilineStart The multiline start token
  * @member multilineEnd The multiline end token
+ * @member singleQuote The single quote token
+ * @member doubleQuote The double quote token
+ * @member backtick The backtick token
  * @internal
  */
 export interface ILanguageTokens {
-  singleline: string | undefined;
-  multilineStart: string | undefined;
-  multilineEnd: string | undefined;
+  singleline?: string;
+  multilineStart?: string;
+  multilineEnd?: string;
+  singleQuote?: string;
+  doubleQuote?: string;
+  backtick?: string;
 }
 
 /**
