@@ -3,7 +3,12 @@ SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>
 SPDX-License-Identifier: CC0-1.0
 */
 
-const a = 1; /* Strange comment */ // It really is!
+const a = "/* this needs to be ignored */"; /* Strange comment */ // It really is!
+const b = `Typescript supports different types of comments, including:
+
+  - Single line comments: // Like this one
+  - Multline comments: /* Who does not like more lines? */
+`
 
 /**
  * This is a Fake interface

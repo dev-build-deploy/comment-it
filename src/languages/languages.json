@@ -9,73 +9,96 @@
     {
       "name": "AWK",
       "extensions": [".awk"],
-      "singleline":"#"
+      "singleline":"#",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "C",
       "extensions": [ ".c", ".h" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "C++",
       "extensions": [ ".cpp", ".cc", ".cxx", ".hpp", ".hh", ".hxx" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "C#",
       "extensions": [ ".cs" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "CMake",
       "extensions": [ ".cmake" ],
       "multiline": { "start": "#[[", "end": "]]" },
-      "singleline": "#"
+      "singleline": "#",
+      "doubleQuote": true
     },
     {
       "name": "Dart",
       "extensions": [ ".dart" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "Go",
       "extensions": [ ".go" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "doubleQuote": true,
+      "backtick": true
     },
     {
       "name": "Groovy",
       "extensions": [ ".groovy", ".gvy", ".gy", ".gsh" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "Java",
       "extensions": [ ".java" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "Javascript",
       "extensions": [ ".js" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "singleQuote": true,
+      "doubleQuote": true,
+      "backtick": true
     },
     {
       "name": "Kotlin",
       "extensions": [ ".kt", ".kts" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "doubleQuote": true
     },
     {
       "name": "LUA",
       "extensions": [ ".lua" ],
       "multiline": { "start": "--[[", "end": "]]" },
-      "singleline": "--"
+      "singleline": "--",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "Markdown",
@@ -86,13 +109,17 @@
       "name": "Nix",
       "extensions": [ ".nix" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "#"
+      "singleline": "#",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "Objective-C",
       "extensions": [ ".m", ".mm" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "Plain Text",
@@ -103,59 +130,78 @@
       "name": "Perl",
       "extensions": [ ".pl", ".pm" ],
       "multiline": { "start": "=pod", "end": "=cut" },
-      "singleline": "#"
+      "singleline": "#",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "PHP",
       "extensions": [ ".php" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "Python",
       "extensions": [ ".py" ],
       "multiline": { "start": "\"\"\"", "end": "\"\"\"" },
-      "singleline": "#"
+      "singleline": "#",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "Ruby",
       "extensions": [ ".rb" ],
       "multiline": { "start": "=begin", "end": "=end" },
-      "singleline": "#"
+      "singleline": "#",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "Rust",
       "extensions": [ ".rs" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "Scala",
       "extensions": [ ".scala" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "doubleQuote": true
     },
     {
       "name": "Shell",
       "extensions": [ ".sh" ],
-      "singleline": "#"
+      "singleline": "#",
+      "singleQuote": true,
+      "doubleQuote": true
     },
     {
       "name": "Swift",
       "extensions": [ ".swift" ],
       "multiline": { "start": "/*", "end": "*/" },
-      "singleline": "//"
+      "singleline": "//",
+      "doubleQuote": true
     },
     {
       "name": "Typescript",
       "extensions": [ ".ts" ],
       "multiline": { "start": "/*", "end": "*/"},
-      "singleline": "//"
+      "singleline": "//",
+      "singleQuote": true,
+      "doubleQuote": true,
+      "backtick": true
     },
     {
       "name": "YAML Ain't Markup Language",
       "extensions": [".yaml", ".yml"],
-      "singleline": "#"
+      "singleline": "#",
+      "singleQuote": true,
+      "doubleQuote": true
     }
   ]
 }

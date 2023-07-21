@@ -121,6 +121,20 @@ export async function* extractComments(filePath: string, options?: IExtractorOpt
             currentToken = undefined;
             currentComment = undefined;
           }
+          break;
+
+        // Ignore everything between quotes
+        case "singleQuote":
+        case "doubleQuote":
+        case "backtick":
+          if (currentToken && currentToken.type === token.type) {
+            currentToken = undefined;
+            currentComment = undefined;
+          } else {
+            currentToken = token;
+            currentComment = undefined;
+          }
+          break;
       }
     }
 
@@ -141,6 +155,8 @@ export async function* extractComments(filePath: string, options?: IExtractorOpt
     lineNumber++;
 
     // Break the sequence if the maxLines option is provided
-    if (options?.maxLines && lineNumber > options.maxLines) break;
+    if (options?.maxLines && lineNumber > options.maxLines) {
+      break;
+    }
   }
 }
