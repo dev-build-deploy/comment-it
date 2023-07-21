@@ -86,6 +86,11 @@
       "backtick": true
     },
     {
+      "name": "JSON",
+      "extensions": [ ".json" ],
+      "doubleQuote": true
+    },
+    {
       "name": "Kotlin",
       "extensions": [ ".kt", ".kts" ],
       "multiline": { "start": "/*", "end": "*/" },
