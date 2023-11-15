@@ -53,6 +53,11 @@
       "doubleQuote": true
     },
     {
+      "name": "Extensible Markup Language",
+      "extensions": [".xml", ".gxl"],
+      "multiline": { "start": "<!--", "end": "-->" }
+    },
+    {
       "name": "Go",
       "extensions": [ ".go" ],
       "multiline": { "start": "/*", "end": "*/" },
@@ -69,12 +74,37 @@
       "doubleQuote": true
     },
     {
+      "name": "Hashicorp Configuration Language",
+      "extensions": [ ".hcl" ],
+      "singleline": "#",
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleQuote": true,
+      "doubleQuote": true
+    },
+    {
+      "name": "HyperText Markup Language",
+      "extensions": [ ".html", ".htm", ".xhtml" ],
+      "multiline": { "start": "<!--", "end": "-->" },
+      "singleQuote": true,
+      "doubleQuote": true
+    },
+    {
+      "name": "Ini",
+      "extensions": [ ".ini" ],
+      "singleline": ";"
+    },
+    {
       "name": "Java",
       "extensions": [ ".java" ],
       "multiline": { "start": "/*", "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true
+    },
+    {
+      "name": "Java Management Extension",
+      "extensions": [ ".jmx" ],
+      "multiline": { "start": "<!--", "end": "-->" }
     },
     {
       "name": "Javascript",
@@ -106,6 +136,18 @@
       "doubleQuote": true
     },
     {
+      "name": "Make",
+      "extensions": ".mk",
+      "filenames": ["GNUmakefile", "makefile", "Makefile"],
+      "singleline": "#"
+    },
+    {
+      "name": "Mako",
+      "extensions": ".mako",
+      "multiline": { "start": "<%doc>", "end": "</%doc>" },
+      "singleline": "##"
+    },
+    {
       "name": "Markdown",
       "extensions": [".md", ".mkd", ".mdwn", ".mdown", ".markdown"],
       "multiline": { "start": "<!--", "end": "-->" }
@@ -128,6 +170,7 @@
     },
     {
       "name": "Plain Text",
+      "extensions": [".cfg", ".conf", ".cf", ".doxygen"],
       "filenames": [ ".gitattributes", ".gitignore", "CODEOWNERS" ],
       "singleline": "#"
     },
@@ -152,6 +195,14 @@
       "extensions": [ ".py" ],
       "multiline": { "start": "\"\"\"", "end": "\"\"\"" },
       "singleline": "#",
+      "singleQuote": true,
+      "doubleQuote": true
+    },
+    {
+      "name": "Qt Modeling Language",
+      "extensions": [ ".qml" ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true
     },
@@ -186,11 +237,28 @@
       "doubleQuote": true
     },
     {
+      "name": "Smarty",
+      "extensions": [ ".tpl" ],
+      "multiline": { "start": "{*", "end": "*}" },
+      "singleline": "#"
+    },
+    {
       "name": "Swift",
       "extensions": [ ".swift" ],
       "multiline": { "start": "/*", "end": "*/" },
       "singleline": "//",
       "doubleQuote": true
+    },
+    {
+      "name": "Terraform",
+      "extensions": [ ".tf", ".tfvars" ],
+      "multiline": { "start": "/*", "end": "*/" },
+      "singleline": "#"
+    },
+    {
+      "name": "Toms Obvious Minimal Language",
+      "extensions": [ ".toml" ],
+      "singleline": "#"
     },
     {
       "name": "Typescript",
