@@ -15,7 +15,8 @@ import path from "path";
 function getLanguageMatches(file: string): ILanguage[] {
   const extension = path.extname(file);
   const matches = (languages as ILanguage[]).filter(
-    language => language.extensions?.includes(extension) || language.filenames?.includes(path.basename(file))
+    language =>
+      (extension && language.extensions?.includes(extension)) || language.filenames?.includes(path.basename(file))
   );
   return matches;
 }
