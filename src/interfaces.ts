@@ -9,6 +9,7 @@ SPDX-License-Identifier: MIT
  * @member type The type of comment (`singleline` or `multiline`)
  * @member format The format used to extract the comment
  * @member format.start Initial prefix for extracting a comment
+ * @member format.prefixes (OPTIONAL) prefixes for multiline comments
  * @member format.end Suffix indicating the end of a comment
  * @member contents[] Array containing the extracted data (line-by-line)
  * @member contents[].line The line number of the comment
@@ -71,16 +72,23 @@ interface IMultiLineComment {
  * @member singleQuote Whether single quotes are used for strings
  * @member doubleQuote Whether double quotes are used for strings
  * @member backtick Whether backticks are used for strings
- * @internal
  */
 export interface ILanguage {
+  /** The name of the language */
   name: string;
+  /** List of file extensions */
   extensions?: string[];
+  /** List of filenames */
   filenames?: string[];
+  /** Multiline comment */
   multiline?: IMultiLineComment;
+  /** Single line comment */
   singleline?: string;
+  /** Whether single quotes are used for strings */
   singleQuote?: boolean;
+  /** Whether double quotes are used for strings */
   doubleQuote?: boolean;
+  /** Whether backticks are used for strings */
   backtick?: boolean;
 }
 
