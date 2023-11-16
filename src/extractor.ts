@@ -20,6 +20,38 @@ type Token = {
 };
 
 /**
+ * Remove prefixes from multiline comments in case all lines are starting with either
+ * a valid prefix or the multiline start token
+ * @param comment The comment to strip prefixes from
+ * @returns The comment without prefixes
+ */
+function stripMultilinePrefixes(comment: IComment): IComment {
+  if (comment.type !== "multiline" || comment.format.prefixes === undefined || comment.format.prefixes.length === 0) {
+    return comment;
+  }
+
+  const prefixRegex = new RegExp(`^\\s*(${comment.format.prefixes.map(char => `\\${char}`).join("|")})\\s?`);
+
+  const allPrefixed = comment.contents.every(
+    line =>
+      (comment.format.start && line.raw.startsWith(comment.format.start)) ||
+      (comment.format.end && line.raw.startsWith(comment.format.end)) ||
+      prefixRegex.exec(line.raw) !== null
+  );
+
+  if (allPrefixed) {
+    comment.contents = comment.contents.map(entry => {
+      return {
+        ...entry,
+        value: entry.value.replace(prefixRegex, ""),
+      };
+    });
+  }
+
+  return comment;
+}
+
+/**
  * Tokenizes the provided line into comment related tokens
  * @param languageTokens List of tokens to tokenize the line with
  * @param line The line to tokenize
@@ -107,6 +139,9 @@ export async function* extractComments(filePath: string, options?: IExtractorOpt
               format: { start: language[token.type], end: "" },
               contents: [contents],
             };
+            if (language.multilinePrefixes) {
+              currentComment.format.prefixes = language.multilinePrefixes;
+            }
           }
           break;
 
@@ -120,10 +155,7 @@ export async function* extractComments(filePath: string, options?: IExtractorOpt
               lastContent.value = lastContent.raw
                 .substring((language[token.type]?.length ?? 0) + 1, token.pos - lastContent.column.start)
                 .trimEnd();
-              // Remove initial space between the token and the comment
-              if (lastContent.value.startsWith(" ")) {
-                lastContent.value = contents.value.slice(1);
-              }
+
               lastContent.raw = line.substring(
                 lastContent.column.start,
                 token.pos + (language[token.type]?.length ?? 0 + 1)
@@ -131,7 +163,7 @@ export async function* extractComments(filePath: string, options?: IExtractorOpt
             } else {
               currentComment.contents.push(contents);
             }
-            yield currentComment;
+            yield stripMultilinePrefixes(currentComment);
             currentToken = undefined;
             currentComment = undefined;
           }
@@ -159,15 +191,10 @@ export async function* extractComments(filePath: string, options?: IExtractorOpt
       currentComment.contents.length > 0 &&
       currentComment.contents[currentComment.contents.length - 1].line !== lineNumber
     ) {
-      const prefixRegex =
-        (language.multilinePrefixes ?? []).length > 0
-          ? new RegExp(`^\\s?(${language.multilinePrefixes?.map(char => `\\${char}`).join("|")})\\s?`)
-          : undefined;
-
       currentComment?.contents.push({
         line: lineNumber,
         column: { start: 0, end: line.length },
-        value: prefixRegex ? line.replace(prefixRegex, "") : line,
+        value: line,
         raw: line,
       });
     }

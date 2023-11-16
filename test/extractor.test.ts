@@ -108,7 +108,7 @@ describe("Multiline comments", () => {
       output: [
         {
           type: "multiline",
-          format: { start: "/*", end: "*/" },
+          format: { start: "/*", prefixes: ["*"], end: "*/" },
           contents: [
             {
               line: 1,
@@ -128,7 +128,7 @@ Multiline comment
       output: [
         {
           type: "multiline",
-          format: { start: "/*", end: "*/" },
+          format: { start: "/*", prefixes: ["*"], end: "*/" },
           contents: [
             {
               line: 1,
@@ -160,7 +160,7 @@ Multiline comment
       output: [
         {
           type: "multiline",
-          format: { start: "/*", end: "*/" },
+          format: { start: "/*", prefixes: ["*"], end: "*/" },
           contents: [
             {
               line: 1,
@@ -185,13 +185,91 @@ Multiline comment
       ],
     },
     {
+      description: "Multiline on multiple lines with prefix, undetermined whitespacing",
+      input: `/*
+    * Multiline comment
+*/`,
+      output: [
+        {
+          type: "multiline",
+          format: { start: "/*", prefixes: ["*"], end: "*/" },
+          contents: [
+            {
+              line: 1,
+              column: { start: 0, end: 2 },
+              value: "",
+              raw: "/*",
+            },
+            {
+              line: 2,
+              column: { start: 0, end: 23 },
+              value: "Multiline comment",
+              raw: "    * Multiline comment",
+            },
+            {
+              line: 3,
+              column: { start: 0, end: 2 },
+              value: "",
+              raw: "*/",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      description: "Multiline on multiple lines without prefix, but with list",
+      input: `/*
+Multiline comment which consists of a list:
+* Item 1
+* Item 2
+*/`,
+      output: [
+        {
+          type: "multiline",
+          format: { start: "/*", prefixes: ["*"], end: "*/" },
+          contents: [
+            {
+              line: 1,
+              column: { start: 0, end: 2 },
+              value: "",
+              raw: "/*",
+            },
+            {
+              line: 2,
+              column: { start: 0, end: 43 },
+              value: "Multiline comment which consists of a list:",
+              raw: "Multiline comment which consists of a list:",
+            },
+            {
+              line: 3,
+              column: { start: 0, end: 8 },
+              value: "* Item 1",
+              raw: "* Item 1",
+            },
+            {
+              line: 4,
+              column: { start: 0, end: 8 },
+              value: "* Item 2",
+              raw: "* Item 2",
+            },
+            {
+              line: 5,
+              column: { start: 0, end: 2 },
+              value: "",
+              raw: "*/",
+            },
+          ],
+        },
+      ],
+    },
+    {
       description: "Multiline start and end on same line",
       input: `/* Multiline comment
 spanning multiple lines */`,
       output: [
         {
           type: "multiline",
-          format: { start: "/*", end: "*/" },
+          format: { start: "/*", prefixes: ["*"], end: "*/" },
           contents: [
             {
               line: 1,
@@ -230,7 +308,7 @@ spanning multiple lines */`,
       output: [
         {
           type: "multiline",
-          format: { start: "/*", end: "*/" },
+          format: { start: "/*", prefixes: ["*"], end: "*/" },
           contents: [
             {
               line: 1,
@@ -248,7 +326,7 @@ spanning multiple lines */`,
       output: [
         {
           type: "multiline",
-          format: { start: "/*", end: "*/" },
+          format: { start: "/*", prefixes: ["*"], end: "*/" },
           contents: [
             {
               line: 1,
@@ -280,7 +358,7 @@ Another one!
       output: [
         {
           type: "multiline",
-          format: { start: "/*", end: "*/" },
+          format: { start: "/*", prefixes: ["*"], end: "*/" },
           contents: [
             {
               line: 1,
@@ -292,7 +370,7 @@ Another one!
         },
         {
           type: "multiline",
-          format: { start: "/*", end: "*/" },
+          format: { start: "/*", prefixes: ["*"], end: "*/" },
           contents: [
             {
               line: 1,
