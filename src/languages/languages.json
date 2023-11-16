@@ -16,7 +16,7 @@
     {
       "name": "C",
       "extensions": [ ".c", ".h" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true
@@ -24,7 +24,7 @@
     {
       "name": "C++",
       "extensions": [ ".cpp", ".cc", ".cxx", ".hpp", ".hh", ".hxx" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true
@@ -32,7 +32,7 @@
     {
       "name": "C#",
       "extensions": [ ".cs" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true
@@ -47,7 +47,7 @@
     {
       "name": "Dart",
       "extensions": [ ".dart" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true
@@ -60,7 +60,7 @@
     {
       "name": "Go",
       "extensions": [ ".go" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "doubleQuote": true,
       "backtick": true
@@ -68,7 +68,7 @@
     {
       "name": "Groovy",
       "extensions": [ ".groovy", ".gvy", ".gy", ".gsh" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true
@@ -77,7 +77,7 @@
       "name": "Hashicorp Configuration Language",
       "extensions": [ ".hcl" ],
       "singleline": "#",
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleQuote": true,
       "doubleQuote": true
     },
@@ -96,7 +96,7 @@
     {
       "name": "Java",
       "extensions": [ ".java" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true
@@ -109,7 +109,7 @@
     {
       "name": "Javascript",
       "extensions": [ ".js" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true,
@@ -123,7 +123,7 @@
     {
       "name": "Kotlin",
       "extensions": [ ".kt", ".kts" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "doubleQuote": true
     },
@@ -155,7 +155,7 @@
     {
       "name": "Nix",
       "extensions": [ ".nix" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "#",
       "singleQuote": true,
       "doubleQuote": true
@@ -163,7 +163,7 @@
     {
       "name": "Objective-C",
       "extensions": [ ".m", ".mm" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true
@@ -185,7 +185,7 @@
     {
       "name": "PHP",
       "extensions": [ ".php" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true
@@ -201,7 +201,7 @@
     {
       "name": "Qt Modeling Language",
       "extensions": [ ".qml" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true
@@ -217,7 +217,7 @@
     {
       "name": "Rust",
       "extensions": [ ".rs" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true
@@ -225,7 +225,7 @@
     {
       "name": "Scala",
       "extensions": [ ".scala" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "doubleQuote": true
     },
@@ -245,14 +245,14 @@
     {
       "name": "Swift",
       "extensions": [ ".swift" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "doubleQuote": true
     },
     {
       "name": "Terraform",
       "extensions": [ ".tf", ".tfvars" ],
-      "multiline": { "start": "/*", "end": "*/" },
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "#"
     },
     {
@@ -263,7 +263,7 @@
     {
       "name": "Typescript",
       "extensions": [ ".ts" ],
-      "multiline": { "start": "/*", "end": "*/"},
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/"},
       "singleline": "//",
       "singleQuote": true,
       "doubleQuote": true,

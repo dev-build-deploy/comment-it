@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>
 SPDX-License-Identifier: MIT
 */
 
-import { isSupported } from "../src/languages";
+import { isSupported, addLanguage, getLanguageToken } from "../src/languages";
 
 describe("Languages", () => {
   const testData = [
@@ -41,5 +41,29 @@ describe("Languages", () => {
 
   it.each(testData)("$description", ({ file, isSupported: expectations }) => {
     expect(isSupported(file as string)).toBe(expectations);
+  });
+});
+
+describe("Add custom language", () => {
+  test("Add new language", () => {
+    addLanguage({
+      name: "Test",
+      extensions: [".test"],
+      singleline: "//",
+    });
+
+    expect(isSupported("test.test")).toBe(true);
+    expect(() => getLanguageToken("test.yml")).not.toThrow();
+  });
+
+  test("Add overlapping language", () => {
+    addLanguage({
+      name: "Overlapping Test",
+      extensions: [".yml"],
+      singleline: "//",
+    });
+
+    expect(isSupported("test.yml")).toBe(false);
+    expect(() => getLanguageToken("test.yml")).toThrow();
   });
 });

@@ -11,7 +11,8 @@
           "start": 0,
           "end": 66
         },
-        "value": "# SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>"
+        "raw": "# SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>",
+        "value": "SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>"
       }
     ]
   },
@@ -27,7 +28,8 @@
           "start": 0,
           "end": 34
         },
-        "value": "# SPDX-License-Identifier: CC0-1.0"
+        "raw": "# SPDX-License-Identifier: CC0-1.0",
+        "value": "SPDX-License-Identifier: CC0-1.0"
       }
     ]
   },
@@ -43,7 +45,8 @@
           "start": 15,
           "end": 37
         },
-        "value": "# TODO: make this true"
+        "raw": "# TODO: make this true",
+        "value": "TODO: make this true"
       }
     ]
   },
@@ -59,7 +62,8 @@
           "start": 0,
           "end": 35
         },
-        "value": "# Not sure whether we needed a full"
+        "raw": "# Not sure whether we needed a full",
+        "value": "Not sure whether we needed a full"
       }
     ]
   },
@@ -75,7 +79,8 @@
           "start": 0,
           "end": 41
         },
-        "value": "# YAML file for this simple configuration"
+        "raw": "# YAML file for this simple configuration",
+        "value": "YAML file for this simple configuration"
       }
     ]
   },
@@ -91,7 +96,8 @@
           "start": 0,
           "end": 23
         },
-        "value": "# but it's here anyway."
+        "raw": "# but it's here anyway.",
+        "value": "but it's here anyway."
       }
     ]
   }
