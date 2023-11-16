@@ -67,12 +67,14 @@ This will result in [IComment](#comment-interface) objects, considering the abov
  * @member type The type of comment (`singleline` or `multiline`)
  * @member format The format used to extract the comment
  * @member format.start Initial prefix for extracting a comment
+ * @member format.prefixes (OPTIONAL) prefixes for multiline comments
  * @member format.end Suffix indicating the end of a comment
  * @member contents[] Array containing the extracted data (line-by-line)
  * @member contents[].line The line number of the comment
  * @member contents[].column The column range indicating the start and end of the comment on this line
  * @member contents[].column.start The column number indicating the start of the comment on this line
  * @member contents[].column.end The column number indicating the end of the comment on this line
+ * @member contents[].raw The raw data on this line
  * @member contents[].value The extracted comment on this line
  */
 export interface IComment {
@@ -82,11 +84,13 @@ export interface IComment {
       start: number;
       end: number
     };
-    value: string
+    raw: string;
+    value: string;
   }[];
   type: "singleline" | "multiline";
   format: {
     start?: string;
+    prefixes?: string[];
     end?: string;
   };
 }

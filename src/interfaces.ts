@@ -16,6 +16,7 @@ SPDX-License-Identifier: MIT
  * @member contents[].column.start The column number indicating the start of the comment on this line
  * @member contents[].column.end The column number indicating the end of the comment on this line
  * @member contents[].value The extracted comment on this line
+ * @member contents[].raw The raw data on this line
  */
 export interface IComment {
   /** The type of comment (`singleline` or `multiline`) */
@@ -24,6 +25,8 @@ export interface IComment {
   format: {
     /** Initial prefix for extracting a comment */
     start?: string;
+    /** (OPTIONAL) prefixes for multiline comments */
+    prefixes?: string[];
     /** Suffix indicating the end of a comment */
     end?: string;
   };
@@ -40,6 +43,8 @@ export interface IComment {
     };
     /** The extracted comment on this line */
     value: string;
+    /** The raw data on this line */
+    raw: string;
   }[];
 }
 
@@ -51,6 +56,7 @@ export interface IComment {
  */
 interface IMultiLineComment {
   start: string;
+  prefixes?: string[];
   end: string;
 }
 
@@ -92,6 +98,7 @@ export interface ILanguage {
 export interface ILanguageTokens {
   singleline?: string;
   multilineStart?: string;
+  multilinePrefixes?: string[];
   multilineEnd?: string;
   singleQuote?: string;
   doubleQuote?: string;

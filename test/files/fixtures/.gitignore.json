@@ -11,7 +11,8 @@
           "start": 0,
           "end": 66
         },
-        "value": "# SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>"
+        "raw": "# SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>",
+        "value": "SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>"
       }
     ]
   },
@@ -27,7 +28,8 @@
           "start": 0,
           "end": 34
         },
-        "value": "# SPDX-License-Identifier: CC0-1.0"
+        "raw": "# SPDX-License-Identifier: CC0-1.0",
+        "value": "SPDX-License-Identifier: CC0-1.0"
       }
     ]
   },
@@ -43,7 +45,8 @@
           "start": 0,
           "end": 16
         },
-        "value": "# More things..!"
+        "raw": "# More things..!",
+        "value": "More things..!"
       }
     ]
   }
