@@ -137,13 +137,13 @@
     },
     {
       "name": "Make",
-      "extensions": ".mk",
+      "extensions": [ ".mk" ],
       "filenames": ["GNUmakefile", "makefile", "Makefile"],
       "singleline": "#"
     },
     {
       "name": "Mako",
-      "extensions": ".mako",
+      "extensions": [ ".mako" ],
       "multiline": { "start": "<%doc>", "end": "</%doc>" },
       "singleline": "##"
     },
