@@ -121,4 +121,6 @@ export interface ILanguageTokens {
 export interface IExtractorOptions {
   /** The maximum amount of lines to extract comments from */
   maxLines?: number;
+  /** Group multiple singleline comments into a comment block */
+  groupSingleline?: boolean;
 }

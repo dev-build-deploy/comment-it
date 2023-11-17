@@ -28,6 +28,7 @@ describe("Singleline comments", () => {
     {
       description: "Singleline comment",
       input: "// Singleline comment",
+      options: {},
       output: [
         {
           type: "singleline",
@@ -46,6 +47,7 @@ describe("Singleline comments", () => {
     {
       description: "Singleline comment with leading whitespace",
       input: "  // Singleline comment",
+      options: {},
       output: [
         {
           type: "singleline",
@@ -64,34 +66,112 @@ describe("Singleline comments", () => {
     {
       description: "Single quote",
       input: "const test = '// Singleline comment'",
+      options: {},
       output: [],
     },
     {
       description: "Double quote",
       input: 'const test = "// Singleline comment"',
+      options: {},
       output: [],
     },
     {
       description: "Backtick",
       input: "const test = `// Singleline comment`",
+      options: {},
       output: [],
     },
     {
       description: "Inside multiline comment",
       input: "/* // Singleline comment */",
+      options: {},
       output: [],
+    },
+    {
+      description: "Multiline within a singleline comment",
+      input: "// /* Multiline comment */",
+      options: {},
+      output: [
+        {
+          type: "singleline",
+          format: { start: "//" },
+          contents: [
+            {
+              line: 1,
+              column: { start: 0, end: 26 },
+              value: "/* Multiline comment */",
+              raw: "// /* Multiline comment */",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      description: "Group multiple singleline comments into a block",
+      input: `// Singleline comment 1
+// Singleline comment 2
+
+// Singleline comment 3
+  // Singleline comment 4`,
+      options: { groupSingleline: true },
+      output: [
+        {
+          type: "singleline",
+          format: { start: "//" },
+          contents: [
+            {
+              line: 1,
+              column: { start: 0, end: 23 },
+              value: "Singleline comment 1",
+              raw: "// Singleline comment 1",
+            },
+            {
+              line: 2,
+              column: { start: 0, end: 23 },
+              value: "Singleline comment 2",
+              raw: "// Singleline comment 2",
+            },
+          ],
+        },
+        {
+          type: "singleline",
+          format: { start: "//" },
+          contents: [
+            {
+              line: 4,
+              column: { start: 0, end: 23 },
+              value: "Singleline comment 3",
+              raw: "// Singleline comment 3",
+            },
+          ],
+        },
+        {
+          type: "singleline",
+          format: { start: "//" },
+          contents: [
+            {
+              line: 5,
+              column: { start: 2, end: 25 },
+              value: "Singleline comment 4",
+              raw: "// Singleline comment 4",
+            },
+          ],
+        },
+      ],
     },
   ];
 
-  it.each(testData)("$description", async ({ input, output }) => {
+  it.each(testData)("$description", async ({ input, options, output }) => {
     // Create temporary test file in temporary directory
     fs.writeFileSync(filePath, input, "utf8");
     let index = 0;
-    for await (const comment of extractComments(filePath)) {
+    for await (const comment of extractComments(filePath, options)) {
       if (comment.type === "multiline") continue;
       expect(comment).toStrictEqual(output[index]);
       index++;
     }
+
+    expect(index).toBe(output.length);
   });
 
   afterEach(() => {
@@ -342,7 +422,7 @@ spanning multiple lines */`,
           contents: [
             {
               line: 1,
-              column: { start: 14, end: 26 },
+              column: { start: 16, end: 29 },
               value: "Singleline",
               raw: "// Singleline",
             },
@@ -408,10 +488,11 @@ Singleline comment`,
 
     let index = 0;
     for await (const comment of extractComments(filePath)) {
-      if (comment.type === "singleline") continue;
       expect(comment).toStrictEqual(output[index]);
       index++;
     }
+
+    expect(index).toBe(output.length);
   });
 
   afterEach(() => {

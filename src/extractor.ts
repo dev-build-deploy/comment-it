@@ -85,9 +85,11 @@ function* tokenize(languageTokens: ILanguageTokens, line: string): Generator<Tok
  */
 export async function* extractComments(filePath: string, options?: IExtractorOptions): AsyncGenerator<IComment> {
   let currentComment: IComment | undefined;
-  const language = getLanguageToken(filePath);
-  let lineNumber = 1;
   let currentToken: Token | undefined = undefined;
+
+  const language = getLanguageToken(filePath);
+
+  let lineNumber = 1;
 
   const lineReader = readline.createInterface({
     input: fs.createReadStream(filePath),
@@ -118,15 +120,42 @@ export async function* extractComments(filePath: string, options?: IExtractorOpt
         contents.value = contents.value.slice(1);
       }
 
+      // Return a singleline comment block in case a different token has been found
+      // or the new singleline comment is not on a sequential line
+      if (
+        options?.groupSingleline === true &&
+        currentComment?.type === "singleline" &&
+        (token.type !== "singleline" ||
+        currentComment?.contents[currentComment.contents.length - 1].line !== lineNumber - 1 ||
+        currentComment?.contents[currentComment.contents.length - 1].column.start !== column.start)
+      ) {
+        yield currentComment;
+        currentComment = undefined;
+        currentToken = undefined;
+      }
+
       switch (token.type) {
-        // We yield every singleline comment as a separate comment
+        // We yield every singleline comment as either:
+        // - a separate comment
+        // - a comment block
         case "singleline":
-          if (!currentToken) {
-            yield {
-              type: "singleline",
-              format: { start: language[token.type] },
-              contents: [contents],
-            };
+          const entry: IComment = {
+            type: "singleline",
+            format: { start: language[token.type] },
+            contents: [contents],
+          };
+
+          // Groups all sequential singleline comments into a comment block
+          if (options?.groupSingleline === true) {
+            if (currentToken) {
+              currentComment?.contents.push(contents);
+            } else {
+              currentToken = token;
+              currentComment = entry;
+            }
+            // Return individual comment lines
+          } else if (!currentToken) {
+            yield entry;
           }
           break;
 
@@ -184,10 +213,9 @@ export async function* extractComments(filePath: string, options?: IExtractorOpt
       }
     }
 
-    // We need to append the line to the current comment if it exists
+    // We need to append the line to the current multiline comment if it exists
     if (
-      currentToken &&
-      currentComment &&
+      currentComment?.type === "multiline" &&
       currentComment.contents.length > 0 &&
       currentComment.contents[currentComment.contents.length - 1].line !== lineNumber
     ) {
@@ -205,5 +233,10 @@ export async function* extractComments(filePath: string, options?: IExtractorOpt
     if (options?.maxLines && lineNumber > options.maxLines) {
       break;
     }
+  }
+
+  // Return any remaining singleline comment blocks
+  if (options?.groupSingleline === true && currentComment?.type === "singleline") {
+    yield currentComment;
   }
 }
