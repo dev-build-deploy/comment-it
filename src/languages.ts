@@ -52,31 +52,20 @@ export function getLanguageToken(file: string): ILanguageTokens {
 export function getLanguage(file: string): ILanguage {
   const matches = getLanguageMatches(file);
   if (matches.length === 0) throw new Error(`Language for file '${file}' not found`);
-  if (matches.length > 1) throw new Error(`Multiple languages for file '${file}' found`);
   const language = matches[0];
 
   return language;
 }
 
 /**
- * Extends the list of supported languages with the provided language
+ * Extends the list of supported languages with the provided language.
+ * NOTE: Adding any new language including overlapping filenames or extensions,
+ * will override any previously existing language (incl. defaults).
+ *
  * @param language The language to add
  */
 export function addLanguage(language: ILanguage): void {
-  // Validate for duplication of extensions
-  for (const extension of language.extensions ?? []) {
-    if (!extension.startsWith(".")) {
-      throw new Error(`Extension '${extension}' does not start with a period`);
-    }
-    isSupported(`test${extension}`);
-  }
-
-  // Validate for duplication of filenames
-  for (const filename of language.filenames ?? []) {
-    isSupported(filename);
-  }
-
-  LANGUAGES.push(language);
+  LANGUAGES.unshift(language);
 }
 
 /**
@@ -86,8 +75,10 @@ export function addLanguage(language: ILanguage): void {
  */
 export function isSupported(file: string): boolean {
   try {
-    return getLanguage(file) !== undefined;
+    getLanguage(file);
   } catch (error) {
     return false;
   }
+
+  return true;
 }

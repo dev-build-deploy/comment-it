@@ -4,7 +4,7 @@ SPDX-License-Identifier: MIT
 */
 
 import { ILanguage } from "../src";
-import { isSupported, addLanguage, getLanguageToken } from "../src/languages";
+import { isSupported, addLanguage, getLanguageToken, getLanguage } from "../src/languages";
 import { languages } from "../src/languages/languages.json";
 
 describe("Languages", () => {
@@ -87,13 +87,15 @@ describe("Add custom language", () => {
   });
 
   test("Add overlapping language", () => {
-    addLanguage({
+    const newLanguage = {
       name: "Overlapping Test",
       extensions: [".yml"],
-      singleline: "//",
-    });
+      singleline: "{%",
+    }
 
-    expect(isSupported("test.yml")).toBe(false);
-    expect(() => getLanguageToken("test.yml")).toThrow();
+    addLanguage(newLanguage);
+
+    expect(isSupported("test.yml")).toBe(true);
+    expect(getLanguage("test.yml")).toBe(newLanguage)
   });
 });
