@@ -91,11 +91,11 @@ describe("Add custom language", () => {
       name: "Overlapping Test",
       extensions: [".yml"],
       singleline: "{%",
-    }
+    };
 
     addLanguage(newLanguage);
 
     expect(isSupported("test.yml")).toBe(true);
-    expect(getLanguage("test.yml")).toBe(newLanguage)
+    expect(getLanguage("test.yml")).toBe(newLanguage);
   });
 });
