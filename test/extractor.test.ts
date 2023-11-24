@@ -4,6 +4,7 @@ SPDX-License-Identifier: MIT
 */
 
 import * as fs from "fs";
+
 import { extractComments } from "../src/extractor";
 
 describe("Languages", () => {

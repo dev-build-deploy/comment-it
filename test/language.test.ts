@@ -3,7 +3,6 @@ SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>
 SPDX-License-Identifier: MIT
 */
 
-import { ILanguage } from "../src";
 import { isSupported, addLanguage, getLanguageToken, getLanguage } from "../src/languages";
 import { languages } from "../src/languages/languages.json";
 
@@ -42,7 +41,7 @@ describe("Languages", () => {
   ];
 
   it.each(testData)("$description", ({ file, isSupported: expectations }) => {
-    expect(isSupported(file as string)).toBe(expectations);
+    expect(isSupported(file)).toBe(expectations);
   });
 });
 

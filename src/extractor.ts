@@ -126,8 +126,8 @@ export async function* extractComments(filePath: string, options?: IExtractorOpt
         options?.groupSingleline === true &&
         currentComment?.type === "singleline" &&
         (token.type !== "singleline" ||
-        currentComment?.contents[currentComment.contents.length - 1].line !== lineNumber - 1 ||
-        currentComment?.contents[currentComment.contents.length - 1].column.start !== column.start)
+          currentComment?.contents[currentComment.contents.length - 1].line !== lineNumber - 1 ||
+          currentComment?.contents[currentComment.contents.length - 1].column.start !== column.start)
       ) {
         yield currentComment;
         currentComment = undefined;

@@ -12,12 +12,6 @@ SPDX-License-Identifier: MIT
  * @member format.prefixes (OPTIONAL) prefixes for multiline comments
  * @member format.end Suffix indicating the end of a comment
  * @member contents[] Array containing the extracted data (line-by-line)
- * @member contents[].line The line number of the comment
- * @member contents[].column The column range indicating the start and end of the comment on this line
- * @member contents[].column.start The column number indicating the start of the comment on this line
- * @member contents[].column.end The column number indicating the end of the comment on this line
- * @member contents[].value The extracted comment on this line
- * @member contents[].raw The raw data on this line
  */
 export interface IComment {
   /** The type of comment (`singleline` or `multiline`) */
@@ -32,21 +26,33 @@ export interface IComment {
     end?: string;
   };
   /** Array containing the extracted data (line-by-line) */
-  contents: {
-    /** The line number of the extracted comment data */
-    line: number;
-    /** The column range indicating the start and end of the comment on this line */
-    column: {
-      /** The column number indicating the start of the comment on this line */
-      start: number;
-      /** The column number indicating the end of the comment on this line */
-      end: number;
-    };
-    /** The extracted comment on this line */
-    value: string;
-    /** The raw data on this line */
-    raw: string;
-  }[];
+  contents: ICommentContent[];
+}
+
+/**
+ * Comment content
+ * @interface ICommentContent
+ * @member line The line number of the extracted comment data
+ * @member column The column range indicating the start and end of the comment on this line
+ * @member column.start The column number indicating the start of the comment on this line
+ * @member column.end The column number indicating the end of the comment on this line
+ * @member value The extracted comment on this line
+ * @member raw The raw data on this line
+ */
+export interface ICommentContent {
+  /** The line number of the extracted comment data */
+  line: number;
+  /** The column range indicating the start and end of the comment on this line */
+  column: {
+    /** The column number indicating the start of the comment on this line */
+    start: number;
+    /** The column number indicating the end of the comment on this line */
+    end: number;
+  };
+  /** The extracted comment on this line */
+  value: string;
+  /** The raw data on this line */
+  raw: string;
 }
 
 /**
