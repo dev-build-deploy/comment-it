@@ -13,6 +13,19 @@ import { languages } from "./languages/languages.json";
 const LANGUAGES = replaceGlobPatternsInLanguages(languages as ILanguage[]);
 
 /**
+ * Replaces any glob patterns in the filenames with actual filenames
+ * @param filenames The filenames to replace the glob patterns in
+ * @returns The filenames with the glob patterns replaced with relative path filenames
+ */
+function replaceGlobPatternsInFilenames(filenames?: string[]): string[] | undefined {
+  if (filenames === undefined) return undefined;
+  return filenames.flatMap(filename => {
+    if (filename.includes("*")) return globSync(filename, { dot: true });
+    else return filename;
+  });
+}
+
+/**
  * Converts any glob patterns in the filenames to actual filenames
  * @param languages The languages to replace the glob patterns in
  * @returns The languages with the glob patterns replaced with relative path filenames
@@ -20,17 +33,7 @@ const LANGUAGES = replaceGlobPatternsInLanguages(languages as ILanguage[]);
 function replaceGlobPatternsInLanguages(languages: ILanguage[]): ILanguage[] {
   const results = JSON.parse(JSON.stringify(languages)) as ILanguage[];
   results.forEach(language => {
-    if (language.filenames !== undefined) {
-      const deglobbed: string[] = [];
-      for (const filename of language.filenames) {
-        if (filename.includes("*")) {
-          deglobbed.push(...globSync(filename, { dot: true }));
-        } else {
-          deglobbed.push(filename);
-        }
-        language.filenames = deglobbed;
-      }
-    }
+    language.filenames = replaceGlobPatternsInFilenames(language.filenames);
   });
 
   return results;
@@ -88,12 +91,15 @@ export function getLanguage(file: string): ILanguage {
 
 /**
  * Extends the list of supported languages with the provided language.
- * NOTE: Adding any new language including overlapping filenames or extensions,
+ * NOTES:
+ *   - Adding any new language including overlapping filenames or extensions,
+ *   - Glob patterns will be applied upon adding the language
  * will override any previously existing language (incl. defaults).
  *
  * @param language The language to add
  */
 export function addLanguage(language: ILanguage): void {
+  language.filenames = replaceGlobPatternsInFilenames(language.filenames);
   LANGUAGES.unshift(language);
 }
 
