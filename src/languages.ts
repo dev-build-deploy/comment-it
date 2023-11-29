@@ -5,10 +5,36 @@ SPDX-License-Identifier: MIT
 
 import path from "path";
 
+import { sync as globSync } from "glob";
+
 import { ILanguage, ILanguageTokens } from "./interfaces";
 import { languages } from "./languages/languages.json";
 
-const LANGUAGES = languages as ILanguage[];
+const LANGUAGES = replaceGlobPatternsInLanguages(languages as ILanguage[]);
+
+/**
+ * Converts any glob patterns in the filenames to actual filenames
+ * @param languages The languages to replace the glob patterns in
+ * @returns The languages with the glob patterns replaced with relative path filenames
+ */
+function replaceGlobPatternsInLanguages(languages: ILanguage[]): ILanguage[] {
+  const results = JSON.parse(JSON.stringify(languages)) as ILanguage[];
+  results.forEach(language => {
+    if (language.filenames !== undefined) {
+      const deglobbed: string[] = [];
+      for (const filename of language.filenames) {
+        if (filename.includes("*")) {
+          deglobbed.push(...globSync(filename, { dot: true }));
+        } else {
+          deglobbed.push(filename);
+        }
+        language.filenames = deglobbed;
+      }
+    }
+  });
+
+  return results;
+}
 
 /**
  * Returns the languages that match the provided file
@@ -18,7 +44,9 @@ const LANGUAGES = languages as ILanguage[];
  */
 function getLanguageMatches(file: string): [ILanguage[], ILanguage[]] {
   const extension = path.extname(file);
-  const filenameMatches = LANGUAGES.filter(language => language.filenames?.includes(path.basename(file)));
+  const filenameMatches = LANGUAGES.filter(language =>
+    language.filenames?.map(filename => path.resolve(filename)).includes(path.resolve(file))
+  );
   const extensionMatches = LANGUAGES.filter(language => language.extensions?.includes(extension));
 
   return [filenameMatches, extensionMatches];

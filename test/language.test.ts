@@ -99,17 +99,38 @@ describe("Add custom language", () => {
   });
 
   test("Filename matches have precedence over extension matches", () => {
-    addLanguage({ name: "Overlapping Test", filenames: ["test.test"], singleline: "%%" });
+    addLanguage({ name: "Overlapping Test", filenames: ["test.test", "second.test"], singleline: "%%" });
     addLanguage({ name: "Test", extensions: [".test"], singleline: "//" });
-    addLanguage({ name: "Overlapping Test", filenames: ["other.test"], singleline: ";" });
+    addLanguage({ name: "Overlapping Test", filenames: ["third.test"], singleline: ";" });
 
     expect(isSupported("test.test")).toBe(true);
     expect(getLanguage("test.test").singleline).toBe("%%");
 
-    expect(isSupported("other.test")).toBe(true);
-    expect(getLanguage("other.test").singleline).toBe(";");
+    expect(isSupported("second.test")).toBe(true);
+    expect(getLanguage("second.test").singleline).toBe("%%");
+
+    expect(isSupported("third.test")).toBe(true);
+    expect(getLanguage("third.test").singleline).toBe(";");
 
     expect(isSupported("extension.test")).toBe(true);
     expect(getLanguage("extension.test").singleline).toBe("//");
+  });
+
+  test("Filename matches have precedence over extension matches (globs)", () => {
+    addLanguage({
+      name: "Custom Language 1",
+      filenames: ["path/to/test.xml"],
+      extensions: [],
+      multiline: { start: "<!--", end: "-->", prefixes: ["~"] },
+    });
+    addLanguage({
+      name: "Custom Language 1",
+      filenames: ["another/path/to/test.xml"],
+      extensions: [],
+      multiline: { start: "<!--", end: "-->" },
+    });
+
+    expect(isSupported("path/to/test.xml")).toBe(true);
+    expect(getLanguage("path/to/test.xml").multiline).toStrictEqual({ start: "<!--", end: "-->", prefixes: ["~"] });
   });
 });

@@ -138,7 +138,7 @@
     {
       "name": "Make",
       "extensions": [ ".mk" ],
-      "filenames": ["GNUmakefile", "makefile", "Makefile"],
+      "filenames": ["**/GNUmakefile", "**/makefile", "**/Makefile"],
       "singleline": "#"
     },
     {
@@ -171,7 +171,7 @@
     {
       "name": "Plain Text",
       "extensions": [".cfg", ".conf", ".cf", ".doxygen"],
-      "filenames": [ ".gitattributes", ".gitignore", "CODEOWNERS" ],
+      "filenames": [ "**/.gitattributes", "**/.gitignore", "**/CODEOWNERS" ],
       "singleline": "#"
     },
     {

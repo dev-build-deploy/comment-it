@@ -39,5 +39,8 @@
   },
   "files": [
     "lib/*"
-  ]
+  ],
+  "dependencies": {
+    "glob": "^10.3.10"
+  }
 }
