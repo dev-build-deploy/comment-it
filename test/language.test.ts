@@ -97,4 +97,19 @@ describe("Add custom language", () => {
     expect(isSupported("test.yml")).toBe(true);
     expect(getLanguage("test.yml")).toBe(newLanguage);
   });
+
+  test("Filename matches have precedence over extension matches", () => {
+    addLanguage({ name: "Overlapping Test", filenames: ["test.test"], singleline: "%%" });
+    addLanguage({ name: "Test", extensions: [".test"], singleline: "//" });
+    addLanguage({ name: "Overlapping Test", filenames: ["other.test"], singleline: ";" });
+
+    expect(isSupported("test.test")).toBe(true);
+    expect(getLanguage("test.test").singleline).toBe("%%");
+
+    expect(isSupported("other.test")).toBe(true);
+    expect(getLanguage("other.test").singleline).toBe(";");
+
+    expect(isSupported("extension.test")).toBe(true);
+    expect(getLanguage("extension.test").singleline).toBe("//");
+  });
 });

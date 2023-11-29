@@ -14,14 +14,14 @@ const LANGUAGES = languages as ILanguage[];
  * Returns the languages that match the provided file
  * @param file The file to match against
  * @returns The languages that match the provided file
+ *          split into filename and extension matches
  */
-function getLanguageMatches(file: string): ILanguage[] {
+function getLanguageMatches(file: string): [ILanguage[], ILanguage[]] {
   const extension = path.extname(file);
-  const matches = LANGUAGES.filter(
-    language =>
-      (extension && language.extensions?.includes(extension)) || language.filenames?.includes(path.basename(file))
-  );
-  return matches;
+  const filenameMatches = LANGUAGES.filter(language => language.filenames?.includes(path.basename(file)));
+  const extensionMatches = LANGUAGES.filter(language => language.extensions?.includes(extension));
+
+  return [filenameMatches, extensionMatches];
 }
 
 /**
@@ -45,16 +45,17 @@ export function getLanguageToken(file: string): ILanguageTokens {
 }
 
 /**
- * Retrive the language configuration for the provided file
+ * Retrieve the language configuration for the provided file.
+ * NOTE: Filename matches have precedence over extension matches.
  * @param file The file to retrieve the language for
  * @returns The language configuration
  */
 export function getLanguage(file: string): ILanguage {
-  const matches = getLanguageMatches(file);
-  if (matches.length === 0) throw new Error(`Language for file '${file}' not found`);
-  const language = matches[0];
+  const [filenameMatches, extensionMatches] = getLanguageMatches(file);
+  if (filenameMatches.length === 0 && extensionMatches.length === 0)
+    throw new Error(`Language for file '${file}' not found`);
 
-  return language;
+  return filenameMatches.length > 0 ? filenameMatches[0] : extensionMatches[0];
 }
 
 /**
