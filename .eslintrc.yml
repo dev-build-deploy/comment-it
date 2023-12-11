@@ -1,20 +1,32 @@
 # SPDX-FileCopyrightText: 2023 Kevin de Jong <monkaii@hotmail.com>
 # SPDX-License-Identifier: CC0-1.0
-
 ---
 plugins:
   - jest
   - "@typescript-eslint"
   - import
+
 extends:
-  # see https://www.npmjs.com/package/eslint-plugin-import for more info about the import/recommended set of rules
   - plugin:import/recommended
   - plugin:import/typescript
+  - plugin:@typescript-eslint/recommended
+
+env:
+  node: true
+  es2021: true
+  commonjs: true
+  jest/globals: true
+
+settings:
+  import/resolver:
+    typescript: true
+    node: true
+
 parser: "@typescript-eslint/parser"
 parserOptions:
-  ecmaVersion: 9
-  sourceType: module
+  ecmaVersion: latest
   project: "./tsconfig.json"
+
 rules:
   i18n-text/no-en: off
   eslint-comments/no-use: off
@@ -82,11 +94,3 @@ rules:
     - never
     - pattern:
         json: ignorePackages
-env:
-  node: true
-  es6: true
-  jest/globals: true
-settings:
-  import/resolver:
-    typescript: true
-    node: true
