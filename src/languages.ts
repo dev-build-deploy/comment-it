@@ -47,8 +47,8 @@ function replaceGlobPatternsInLanguages(languages: ILanguage[]): ILanguage[] {
  */
 function getLanguageMatches(file: string): [ILanguage[], ILanguage[]] {
   const extension = path.extname(file);
-  const filenameMatches = LANGUAGES.filter(language =>
-    language.filenames?.map(filename => path.resolve(filename)).includes(path.resolve(file))
+  const filenameMatches = LANGUAGES.filter(
+    language => language.filenames?.map(filename => path.resolve(filename)).includes(path.resolve(file))
   );
   const extensionMatches = LANGUAGES.filter(language => language.extensions?.includes(extension));
 
