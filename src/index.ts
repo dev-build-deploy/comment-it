@@ -5,4 +5,5 @@ SPDX-License-Identifier: MIT
 
 export { addLanguage, getLanguage, isSupported } from "./languages";
 export { extractComments } from "./extractor";
-export { IComment, ICommentContent, IExtractorOptions, ILanguage } from "./interfaces";
+
+export type { Comment, CommentContent, ExtractorOptions, Language, MultiLineComment } from "./types";

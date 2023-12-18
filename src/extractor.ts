@@ -6,8 +6,8 @@ SPDX-License-Identifier: MIT
 import fs from "fs";
 import readline from "readline";
 
-import { IComment, IExtractorOptions, ILanguageTokens } from "./interfaces";
 import { getLanguageToken } from "./languages";
+import { Comment, ExtractorOptions, LanguageTokens } from "./types";
 
 /**
  * A token that was found in the line
@@ -15,7 +15,7 @@ import { getLanguageToken } from "./languages";
  * @property pos The position of the token in the line
  */
 type Token = {
-  type: keyof ILanguageTokens;
+  type: keyof LanguageTokens;
   pos: number;
 };
 
@@ -25,7 +25,7 @@ type Token = {
  * @param comment The comment to strip prefixes from
  * @returns The comment without prefixes
  */
-function stripMultilinePrefixes(comment: IComment): IComment {
+function stripMultilinePrefixes(comment: Comment): Comment {
   if (comment.type !== "multiline" || comment.format.prefixes === undefined || comment.format.prefixes.length === 0) {
     return comment;
   }
@@ -57,7 +57,7 @@ function stripMultilinePrefixes(comment: IComment): IComment {
  * @param line The line to tokenize
  * @returns A generator that yields tokens
  */
-function* tokenize(languageTokens: ILanguageTokens, line: string): Generator<Token> {
+function* tokenize(languageTokens: LanguageTokens, line: string): Generator<Token> {
   const charArr = Array.from(line);
   let pos = 0;
   while (pos !== charArr.length) {
@@ -69,7 +69,7 @@ function* tokenize(languageTokens: ILanguageTokens, line: string): Generator<Tok
       }
 
       if (match) {
-        yield { type: key as keyof ILanguageTokens, pos: pos };
+        yield { type: key as keyof LanguageTokens, pos: pos };
         pos += value.length - 1;
       }
     }
@@ -83,8 +83,8 @@ function* tokenize(languageTokens: ILanguageTokens, line: string): Generator<Tok
  * @param filePath The path to the file to extract comments from
  * @returns An async generator that yields comments
  */
-export async function* extractComments(filePath: string, options?: IExtractorOptions): AsyncGenerator<IComment> {
-  let currentComment: IComment | undefined;
+export async function* extractComments(filePath: string, options?: ExtractorOptions): AsyncGenerator<Comment> {
+  let currentComment: Comment | undefined;
   let currentToken: Token | undefined = undefined;
 
   const language = getLanguageToken(filePath);
@@ -139,7 +139,7 @@ export async function* extractComments(filePath: string, options?: IExtractorOpt
         // - a separate comment
         // - a comment block
         case "singleline":
-          const entry: IComment = {
+          const entry: Comment = {
             type: "singleline",
             format: { start: language[token.type] },
             contents: [contents],

@@ -7,10 +7,10 @@ import path from "path";
 
 import { sync as globSync } from "glob";
 
-import { ILanguage, ILanguageTokens } from "./interfaces";
 import { languages } from "./languages/languages.json";
+import { Language, LanguageTokens } from "./types";
 
-const LANGUAGES = replaceGlobPatternsInLanguages(languages as ILanguage[]);
+const LANGUAGES = replaceGlobPatternsInLanguages(languages as Language[]);
 
 /**
  * Replaces any glob patterns in the filenames with actual filenames
@@ -30,8 +30,8 @@ function replaceGlobPatternsInFilenames(filenames?: string[]): string[] | undefi
  * @param languages The languages to replace the glob patterns in
  * @returns The languages with the glob patterns replaced with relative path filenames
  */
-function replaceGlobPatternsInLanguages(languages: ILanguage[]): ILanguage[] {
-  const results = JSON.parse(JSON.stringify(languages)) as ILanguage[];
+function replaceGlobPatternsInLanguages(languages: Language[]): Language[] {
+  const results = JSON.parse(JSON.stringify(languages)) as Language[];
   results.forEach(language => {
     language.filenames = replaceGlobPatternsInFilenames(language.filenames);
   });
@@ -45,7 +45,7 @@ function replaceGlobPatternsInLanguages(languages: ILanguage[]): ILanguage[] {
  * @returns The languages that match the provided file
  *          split into filename and extension matches
  */
-function getLanguageMatches(file: string): [ILanguage[], ILanguage[]] {
+function getLanguageMatches(file: string): [Language[], Language[]] {
   const extension = path.extname(file);
   const filenameMatches = LANGUAGES.filter(
     language => language.filenames?.map(filename => path.resolve(filename)).includes(path.resolve(file))
@@ -61,7 +61,7 @@ function getLanguageMatches(file: string): [ILanguage[], ILanguage[]] {
  * @returns The language tokens
  * @internal
  */
-export function getLanguageToken(file: string): ILanguageTokens {
+export function getLanguageToken(file: string): LanguageTokens {
   const language = getLanguage(file);
 
   return {
@@ -81,7 +81,7 @@ export function getLanguageToken(file: string): ILanguageTokens {
  * @param file The file to retrieve the language for
  * @returns The language configuration
  */
-export function getLanguage(file: string): ILanguage {
+export function getLanguage(file: string): Language {
   const [filenameMatches, extensionMatches] = getLanguageMatches(file);
   if (filenameMatches.length === 0 && extensionMatches.length === 0)
     throw new Error(`Language for file '${file}' not found`);
@@ -98,7 +98,7 @@ export function getLanguage(file: string): ILanguage {
  *
  * @param language The language to add
  */
-export function addLanguage(language: ILanguage): void {
+export function addLanguage(language: Language): void {
   language.filenames = replaceGlobPatternsInFilenames(language.filenames);
   LANGUAGES.unshift(language);
 }

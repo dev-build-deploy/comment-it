@@ -5,7 +5,7 @@ SPDX-License-Identifier: MIT
 
 /**
  * Comment including metadata
- * @interface IComment
+ * @typedef Comment
  * @member type The type of comment (`singleline` or `multiline`)
  * @member format The format used to extract the comment
  * @member format.start Initial prefix for extracting a comment
@@ -13,7 +13,7 @@ SPDX-License-Identifier: MIT
  * @member format.end Suffix indicating the end of a comment
  * @member contents[] Array containing the extracted data (line-by-line)
  */
-export interface IComment {
+export type Comment = {
   /** The type of comment (`singleline` or `multiline`) */
   type: "singleline" | "multiline";
   /** The format used to extract the comment */
@@ -26,12 +26,12 @@ export interface IComment {
     end?: string;
   };
   /** Array containing the extracted data (line-by-line) */
-  contents: ICommentContent[];
-}
+  contents: CommentContent[];
+};
 
 /**
  * Comment content
- * @interface ICommentContent
+ * @typedef CommentContent
  * @member line The line number of the extracted comment data
  * @member column The column range indicating the start and end of the comment on this line
  * @member column.start The column number indicating the start of the comment on this line
@@ -39,7 +39,7 @@ export interface IComment {
  * @member value The extracted comment on this line
  * @member raw The raw data on this line
  */
-export interface ICommentContent {
+export type CommentContent = {
   /** The line number of the extracted comment data */
   line: number;
   /** The column range indicating the start and end of the comment on this line */
@@ -53,23 +53,23 @@ export interface ICommentContent {
   value: string;
   /** The raw data on this line */
   raw: string;
-}
+};
 
 /**
  * Multiline comment block
- * @interface IMultiLineComment
+ * @typedef MultiLineComment
  * @member start The start of the comment block
  * @member end The end of the comment block
  */
-interface IMultiLineComment {
+export type MultiLineComment = {
   start: string;
   prefixes?: string[];
   end: string;
-}
+};
 
 /**
  * Language definition
- * @interface ILanguage
+ * @typedef Language
  * @member name The name of the language
  * @member extensions List of file extensions
  * @member filenames List of filenames
@@ -79,7 +79,7 @@ interface IMultiLineComment {
  * @member doubleQuote Whether double quotes are used for strings
  * @member backtick Whether backticks are used for strings
  */
-export interface ILanguage {
+export type Language = {
   /** The name of the language */
   name: string;
   /** List of file extensions */
@@ -87,7 +87,7 @@ export interface ILanguage {
   /** List of filenames */
   filenames?: string[];
   /** Multiline comment */
-  multiline?: IMultiLineComment;
+  multiline?: MultiLineComment;
   /** Single line comment */
   singleline?: string;
   /** Whether single quotes are used for strings */
@@ -96,11 +96,11 @@ export interface ILanguage {
   doubleQuote?: boolean;
   /** Whether backticks are used for strings */
   backtick?: boolean;
-}
+};
 
 /**
  * Language tokens
- * @interface ILanguageTokens
+ * @typedef LanguageTokens
  * @member singleline The singleline comment token
  * @member multilineStart The multiline start token
  * @member multilineEnd The multiline end token
@@ -109,7 +109,7 @@ export interface ILanguage {
  * @member backtick The backtick token
  * @internal
  */
-export interface ILanguageTokens {
+export type LanguageTokens = {
   singleline?: string;
   multilineStart?: string;
   multilinePrefixes?: string[];
@@ -117,16 +117,16 @@ export interface ILanguageTokens {
   singleQuote?: string;
   doubleQuote?: string;
   backtick?: string;
-}
+};
 
 /**
  * Extractor options
- * @interface IExtractorOptions
+ * @typedef ExtractorOptions
  * @member maxLines The maximum amount of lines to extract comments from
  */
-export interface IExtractorOptions {
+export type ExtractorOptions = {
   /** The maximum amount of lines to extract comments from */
   maxLines?: number;
   /** Group multiple singleline comments into a comment block */
   groupSingleline?: boolean;
-}
+};
