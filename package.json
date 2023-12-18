@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/dev-build-deploy/comment-it#readme",
   "devDependencies": {
+    "@tsconfig/node20": "^20",
     "@types/jest": ">=6",
     "@typescript-eslint/eslint-plugin": ">=6",
     "@typescript-eslint/parser": ">=6",
@@ -39,6 +40,9 @@
   },
   "dependencies": {
     "glob": ">=10"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "files": [
     "lib/*"
