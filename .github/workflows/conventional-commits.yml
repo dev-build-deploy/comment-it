@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true  # Cancel any previous runs of this workflow
 
 permissions:
-  contents: read  # Required to retrieve the commits associated with your Pull Request
+  contents: read        # Required to retrieve the commits associated with your Pull Request
   pull-requests: write  # Required to add a label to your Pull Request
 
 jobs:
