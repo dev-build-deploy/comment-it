@@ -133,4 +133,28 @@ describe("Add custom language", () => {
     expect(isSupported("path/to/test.xml")).toBe(true);
     expect(getLanguage("path/to/test.xml").multiline).toStrictEqual({ start: "<!--", end: "-->", prefixes: ["~"] });
   });
+
+  test("Filename matches with wildcards (glob)", () => {
+    addLanguage({
+      name: "Custom Language 1",
+      filenames: ["**/test*.oml"],
+      extensions: [],
+      multiline: { start: "<!--", end: "-->", prefixes: ["~"] },
+    });
+    addLanguage({
+      name: "Custom Language 2",
+      filenames: ["prod*.oml"],
+      extensions: [],
+      multiline: { start: "<!--", end: "-->" },
+    });
+
+    expect(isSupported("path/to/test-file.oml")).toBe(true);
+    expect(isSupported("test.oml")).toBe(true);
+
+    expect(isSupported("path/to/prod-file.oml")).toBe(false);
+    expect(isSupported("prod-file.oml")).toBe(true);
+
+    expect(getLanguage("path/to/test-file.oml").name).toEqual("Custom Language 1");
+    expect(getLanguage("prod-file.oml").name).toEqual("Custom Language 2");
+  });
 });

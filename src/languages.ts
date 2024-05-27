@@ -4,7 +4,8 @@ SPDX-License-Identifier: MIT
 */
 
 import path from "path";
-import micromatch from 'micromatch';
+
+import micromatch from "micromatch";
 
 import { languages } from "./languages/languages.json";
 import { Language, LanguageTokens } from "./types";
@@ -19,9 +20,8 @@ const LANGUAGES = languages as Language[];
  */
 function getLanguageMatches(file: string): [Language[], Language[]] {
   const extension = path.extname(file);
-  const filenameMatches = LANGUAGES.filter(language =>
-    language.filenames != undefined &&
-    micromatch.isMatch(file, language.filenames, { dot: true })
+  const filenameMatches = LANGUAGES.filter(
+    language => language.filenames != undefined && micromatch.isMatch(file, language.filenames, { dot: true })
   );
   const extensionMatches = LANGUAGES.filter(language => language.extensions?.includes(extension));
 
