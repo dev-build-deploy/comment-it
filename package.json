@@ -39,7 +39,7 @@
     "typescript": ">=5"
   },
   "dependencies": {
-    "glob": ">=10"
+    "@types/micromatch": ">=4"
   },
   "engines": {
     "node": ">=20"
