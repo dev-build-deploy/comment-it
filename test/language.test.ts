@@ -82,7 +82,7 @@ describe("Add custom language", () => {
     });
 
     expect(isSupported("test.test")).toBe(true);
-    expect(() => getLanguageToken("test.yml")).not.toThrow();
+    expect(() => getLanguageToken(getLanguage("test.yml"))).not.toThrow();
   });
 
   test("Add overlapping language", () => {

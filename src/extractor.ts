@@ -6,7 +6,7 @@ SPDX-License-Identifier: MIT
 import fs from "fs";
 import readline from "readline";
 
-import { getLanguageToken } from "./languages";
+import { getLanguage, getLanguageToken } from "./languages";
 import { Comment, ExtractorOptions, LanguageTokens } from "./types";
 
 /**
@@ -87,7 +87,8 @@ export async function* extractComments(filePath: string, options?: ExtractorOpti
   let currentComment: Comment | undefined;
   let currentToken: Token | undefined = undefined;
 
-  const language = getLanguageToken(filePath);
+  const language = getLanguage(filePath);
+  const languageTokens = getLanguageToken(language);
 
   let lineNumber = 1;
 
@@ -97,10 +98,10 @@ export async function* extractComments(filePath: string, options?: ExtractorOpti
   });
 
   for await (const line of lineReader) {
-    for (const token of tokenize(language, line)) {
+    for (const token of tokenize(languageTokens, line)) {
       const isMultilineEnd = token.type === "multilineEnd";
       const column = isMultilineEnd
-        ? { start: 0, end: token.pos + (language[token.type]?.length ?? 0) }
+        ? { start: 0, end: token.pos + (languageTokens[token.type]?.length ?? 0) }
         : { start: token.pos, end: line.length };
 
       const contents = {
@@ -108,8 +109,8 @@ export async function* extractComments(filePath: string, options?: ExtractorOpti
         column: column,
         value: line
           .substring(
-            column.start + (isMultilineEnd ? 0 : language[token.type]?.length ?? 0),
-            isMultilineEnd ? column.end - (language[token.type]?.length ?? 0) : column.end
+            column.start + (isMultilineEnd ? 0 : (languageTokens[token.type]?.length ?? 0)),
+            isMultilineEnd ? column.end - (languageTokens[token.type]?.length ?? 0) : column.end
           )
           .trimEnd(),
         raw: line.substring(column.start, column.end),
@@ -118,6 +119,12 @@ export async function* extractComments(filePath: string, options?: ExtractorOpti
       // Remove initial space between the token and the comment
       if (contents.value.startsWith(" ")) {
         contents.value = contents.value.slice(1);
+      }
+
+      // Ignore shebangs
+
+      if (language.shebang && contents.line === 1 && contents.raw.startsWith("#!")) {
+        continue;
       }
 
       // Return a singleline comment block in case a different token has been found
@@ -138,10 +145,10 @@ export async function* extractComments(filePath: string, options?: ExtractorOpti
         // We yield every singleline comment as either:
         // - a separate comment
         // - a comment block
-        case "singleline":
+        case "singleline": {
           const entry: Comment = {
             type: "singleline",
-            format: { start: language[token.type] },
+            format: { start: languageTokens[token.type] },
             contents: [contents],
           };
 
@@ -158,6 +165,7 @@ export async function* extractComments(filePath: string, options?: ExtractorOpti
             yield entry;
           }
           break;
+        }
 
         // Start recording all lines until the 'multilineEnd' token is found
         case "multilineStart":
@@ -165,11 +173,11 @@ export async function* extractComments(filePath: string, options?: ExtractorOpti
             currentToken = token;
             currentComment = {
               type: "multiline",
-              format: { start: language[token.type], end: "" },
+              format: { start: languageTokens[token.type], end: "" },
               contents: [contents],
             };
-            if (language.multilinePrefixes) {
-              currentComment.format.prefixes = language.multilinePrefixes;
+            if (languageTokens.multilinePrefixes) {
+              currentComment.format.prefixes = languageTokens.multilinePrefixes;
             }
           }
           break;
@@ -178,16 +186,16 @@ export async function* extractComments(filePath: string, options?: ExtractorOpti
         case "multilineEnd":
           if (currentToken && currentToken.type === "multilineStart" && currentComment) {
             const lastContent = currentComment.contents[currentComment.contents.length - 1];
-            currentComment.format.end = language[token.type];
+            currentComment.format.end = languageTokens[token.type];
             if (lastContent.line === lineNumber) {
               lastContent.column.end = column.end;
               lastContent.value = lastContent.raw
-                .substring((language[token.type]?.length ?? 0) + 1, token.pos - lastContent.column.start)
+                .substring((languageTokens[token.type]?.length ?? 0) + 1, token.pos - lastContent.column.start)
                 .trimEnd();
 
               lastContent.raw = line.substring(
                 lastContent.column.start,
-                token.pos + (language[token.type]?.length ?? 0 + 1)
+                token.pos + (languageTokens[token.type]?.length ?? 0 + 1)
               );
             } else {
               currentComment.contents.push(contents);
@@ -202,9 +210,14 @@ export async function* extractComments(filePath: string, options?: ExtractorOpti
         case "singleQuote":
         case "doubleQuote":
         case "backtick":
-          if (currentToken && currentToken.type === token.type) {
-            currentToken = undefined;
-            currentComment = undefined;
+          if (currentToken) {
+            if (currentToken.type === token.type) {
+              currentToken = undefined;
+              currentComment = undefined;
+            } else {
+              // Ignore the quote or backtick token if it is not the same as the current token
+              // This is needed to address cases where a single quote is used in a comment
+            }
           } else {
             currentToken = token;
             currentComment = undefined;

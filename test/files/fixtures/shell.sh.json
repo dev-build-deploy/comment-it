@@ -1,0 +1,53 @@
+[
+  {
+    "contents": [
+      {
+        "column": {
+          "end": 66,
+          "start": 0
+        },
+        "line": 2,
+        "raw": "# SPDX-FileCopyrightText: 2025 Kevin de Jong <monkaii@hotmail.com>",
+        "value": "SPDX-FileCopyrightText: 2025 Kevin de Jong <monkaii@hotmail.com>"
+      }
+    ],
+    "format": {
+      "start": "#"
+    },
+    "type": "singleline"
+  },
+  {
+    "contents": [
+      {
+        "column": {
+          "end": 34,
+          "start": 0
+        },
+        "line": 3,
+        "raw": "# SPDX-License-Identifier: CC0-1.0",
+        "value": "SPDX-License-Identifier: CC0-1.0"
+      }
+    ],
+    "format": {
+      "start": "#"
+    },
+    "type": "singleline"
+  },
+  {
+    "contents": [
+      {
+        "column": {
+          "end": 50,
+          "start": 2
+        },
+        "line": 8,
+        "raw": "# It's not a real cat, so it can't purr for long",
+        "value": "It's not a real cat, so it can't purr for long"
+      }
+    ],
+    "format": {
+      "start": "#"
+    },
+    "type": "singleline"
+  }
+]

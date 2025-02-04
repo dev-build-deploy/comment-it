@@ -78,6 +78,7 @@ export type MultiLineComment = {
  * @member singleQuote Whether single quotes are used for strings
  * @member doubleQuote Whether double quotes are used for strings
  * @member backtick Whether backticks are used for strings
+ * @member shebang Whether shebangs (#!) are supported
  */
 export type Language = {
   /** The name of the language */
@@ -96,6 +97,8 @@ export type Language = {
   doubleQuote?: boolean;
   /** Whether backticks are used for strings */
   backtick?: boolean;
+  /** Whether shebangs (#!) are supported */
+  shebang?: boolean;
 };
 
 /**
