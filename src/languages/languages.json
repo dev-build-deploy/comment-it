@@ -133,7 +133,8 @@
       "multiline": { "start": "--[[", "end": "]]" },
       "singleline": "--",
       "singleQuote": true,
-      "doubleQuote": true
+      "doubleQuote": true,
+      "shebang": true
     },
     {
       "name": "Make",
@@ -180,7 +181,8 @@
       "multiline": { "start": "=pod", "end": "=cut" },
       "singleline": "#",
       "singleQuote": true,
-      "doubleQuote": true
+      "doubleQuote": true,
+      "shebang": true
     },
     {
       "name": "PHP",
@@ -188,7 +190,8 @@
       "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
-      "doubleQuote": true
+      "doubleQuote": true,
+      "shebang": true
     },
     {
       "name": "Python",
@@ -196,7 +199,8 @@
       "multiline": { "start": "\"\"\"", "end": "\"\"\"" },
       "singleline": "#",
       "singleQuote": true,
-      "doubleQuote": true
+      "doubleQuote": true,
+      "shebang": true
     },
     {
       "name": "Qt Modeling Language",
@@ -212,7 +216,8 @@
       "multiline": { "start": "=begin", "end": "=end" },
       "singleline": "#",
       "singleQuote": true,
-      "doubleQuote": true
+      "doubleQuote": true,
+      "shebang": true
     },
     {
       "name": "Rust",
@@ -234,7 +239,8 @@
       "extensions": [ ".sh" ],
       "singleline": "#",
       "singleQuote": true,
-      "doubleQuote": true
+      "doubleQuote": true,
+      "shebang": true
     },
     {
       "name": "Smarty",

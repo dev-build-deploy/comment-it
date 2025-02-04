@@ -34,9 +34,7 @@ function getLanguageMatches(file: string): [Language[], Language[]] {
  * @returns The language tokens
  * @internal
  */
-export function getLanguageToken(file: string): LanguageTokens {
-  const language = getLanguage(file);
-
+export function getLanguageToken(language: Language): LanguageTokens {
   return {
     singleline: language.singleline,
     multilineStart: language.multiline?.start,
