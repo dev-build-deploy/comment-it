@@ -30,7 +30,8 @@ function stripMultilinePrefixes(comment: Comment): Comment {
     return comment;
   }
 
-  const prefixRegex = new RegExp(`^\\s*(${comment.format.prefixes.map(char => `\\${char}`).join("|")})\\s?`);
+  const escapedPrefixes = comment.format.prefixes.map(char => `\\${char}`).join("|");
+  const prefixRegex = new RegExp(`^\\s*(${escapedPrefixes})\\s?`);
 
   const allPrefixed = comment.contents.every(
     line =>
