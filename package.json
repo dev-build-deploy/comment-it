@@ -30,7 +30,7 @@
     "@eslint/js": "^9.19.0",
     "@tsconfig/node20": "^20",
     "@types/jest": ">=6",
-    "@types/micromatch": ">=4",
+    "@types/micromatch": "4.0.8",
     "@typescript-eslint/eslint-plugin": ">=6",
     "@typescript-eslint/parser": ">=6",
     "eslint": ">=8",
@@ -44,7 +44,7 @@
     "typescript": ">=5"
   },
   "dependencies": {
-    "micromatch": ">=4"
+    "micromatch": "4.0.8"
   },
   "engines": {
     "node": ">=20"
