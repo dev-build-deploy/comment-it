@@ -80,7 +80,8 @@ export function addLanguage(language: Language): void {
 export function isSupported(file: string): boolean {
   try {
     getLanguage(file);
-  } catch (_) {
+  } catch (error) {
+    console.error(`Error determining if the file is supported: ${error}`);
     return false;
   }
 
