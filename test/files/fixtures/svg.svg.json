@@ -1,0 +1,65 @@
+[
+  {
+    "type": "multiline",
+    "format": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "contents": [
+      {
+        "line": 2,
+        "column": {
+          "start": 0,
+          "end": 4
+        },
+        "value": "",
+        "raw": "<!--"
+      },
+      {
+        "line": 3,
+        "column": {
+          "start": 0,
+          "end": 64
+        },
+        "value": "SPDX-FileCopyrightText: 2026 Kevin de Jong <monkaii@hotmail.com>",
+        "raw": "SPDX-FileCopyrightText: 2026 Kevin de Jong <monkaii@hotmail.com>"
+      },
+      {
+        "line": 4,
+        "column": {
+          "start": 0,
+          "end": 28
+        },
+        "value": "SPDX-License-Identifier: MIT",
+        "raw": "SPDX-License-Identifier: MIT"
+      },
+      {
+        "line": 5,
+        "column": {
+          "start": 0,
+          "end": 3
+        },
+        "value": "",
+        "raw": "-->"
+      }
+    ]
+  },
+  {
+    "type": "multiline",
+    "format": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "contents": [
+      {
+        "line": 7,
+        "column": {
+          "start": 2,
+          "end": 37
+        },
+        "value": " A leaf: the icon of a tree",
+        "raw": "<!-- A leaf: the icon of a tree -->"
+      }
+    ]
+  }
+]

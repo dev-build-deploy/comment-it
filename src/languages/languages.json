@@ -54,7 +54,7 @@
     },
     {
       "name": "Extensible Markup Language",
-      "extensions": [".xml", ".gxl"],
+      "extensions": [".xml", ".gxl", ".svg"],
       "multiline": { "start": "<!--", "end": "-->" }
     },
     {
@@ -108,7 +108,7 @@
     },
     {
       "name": "Javascript",
-      "extensions": [ ".js" ],
+      "extensions": [ ".js", ".mjs", ".cjs" ],
       "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
       "singleline": "//",
       "singleQuote": true,
@@ -274,6 +274,12 @@
       "singleQuote": true,
       "doubleQuote": true,
       "backtick": true
+    },
+    {
+      "name": "WebGPU Shading Language",
+      "extensions": [ ".wgsl" ],
+      "multiline": { "start": "/*", "prefixes": ["*"], "end": "*/" },
+      "singleline": "//"
     },
     {
       "name": "YAML Ain't Markup Language",

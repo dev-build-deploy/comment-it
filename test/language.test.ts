@@ -24,6 +24,26 @@ describe("Languages", () => {
       isSupported: true,
     },
     {
+      description: "Javascript module (ES)",
+      file: "test.mjs",
+      isSupported: true,
+    },
+    {
+      description: "Javascript module (CommonJS)",
+      file: "test.cjs",
+      isSupported: true,
+    },
+    {
+      description: "WGSL shader",
+      file: "shader.wgsl",
+      isSupported: true,
+    },
+    {
+      description: "SVG image",
+      file: "icon.svg",
+      isSupported: true,
+    },
+    {
       description: "File without extension (.gitignore)",
       file: ".gitignore",
       isSupported: true,
@@ -42,6 +62,33 @@ describe("Languages", () => {
 
   it.each(testData)("$description", ({ file, isSupported: expectations }) => {
     expect(isSupported(file)).toBe(expectations);
+  });
+});
+
+describe("Language per extension", () => {
+  const testData = [
+    { file: "test.js", language: "Javascript" },
+    { file: "test.mjs", language: "Javascript" },
+    { file: "test.cjs", language: "Javascript" },
+    { file: "shader.wgsl", language: "WebGPU Shading Language" },
+    { file: "test.xml", language: "Extensible Markup Language" },
+    { file: "icon.svg", language: "Extensible Markup Language" },
+  ];
+
+  it.each(testData)("$file is $language", ({ file, language }) => {
+    expect(getLanguage(file).name).toBe(language);
+  });
+
+  test("WGSL uses C-style comments without string literals", () => {
+    expect(getLanguageToken(getLanguage("shader.wgsl"))).toStrictEqual({
+      singleline: "//",
+      multilineStart: "/*",
+      multilinePrefixes: ["*"],
+      multilineEnd: "*/",
+      singleQuote: undefined,
+      doubleQuote: undefined,
+      backtick: undefined,
+    });
   });
 });
 
