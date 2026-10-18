@@ -1,0 +1,122 @@
+[
+  {
+    "type": "singleline",
+    "format": {
+      "start": "//"
+    },
+    "contents": [
+      {
+        "line": 1,
+        "column": {
+          "start": 0,
+          "end": 67
+        },
+        "value": "SPDX-FileCopyrightText: 2026 Kevin de Jong <monkaii@hotmail.com>",
+        "raw": "// SPDX-FileCopyrightText: 2026 Kevin de Jong <monkaii@hotmail.com>"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "//"
+    },
+    "contents": [
+      {
+        "line": 2,
+        "column": {
+          "start": 0,
+          "end": 31
+        },
+        "value": "SPDX-License-Identifier: MIT",
+        "raw": "// SPDX-License-Identifier: MIT"
+      }
+    ]
+  },
+  {
+    "type": "multiline",
+    "format": {
+      "start": "/*",
+      "end": "*/",
+      "prefixes": [
+        "*"
+      ]
+    },
+    "contents": [
+      {
+        "line": 4,
+        "column": {
+          "start": 0,
+          "end": 3
+        },
+        "value": "",
+        "raw": "/**"
+      },
+      {
+        "line": 5,
+        "column": {
+          "start": 0,
+          "end": 17
+        },
+        "value": "Loads a module",
+        "raw": " * Loads a module"
+      },
+      {
+        "line": 6,
+        "column": {
+          "start": 0,
+          "end": 38
+        },
+        "value": "@param {string} url The URL to load",
+        "raw": " * @param {string} url The URL to load"
+      },
+      {
+        "line": 7,
+        "column": {
+          "start": 0,
+          "end": 3
+        },
+        "value": "",
+        "raw": " */"
+      }
+    ]
+  },
+  {
+    "type": "singleline",
+    "format": {
+      "start": "//"
+    },
+    "contents": [
+      {
+        "line": 9,
+        "column": {
+          "start": 47,
+          "end": 59
+        },
+        "value": "a comment",
+        "raw": "// a comment"
+      }
+    ]
+  },
+  {
+    "type": "multiline",
+    "format": {
+      "start": "/*",
+      "end": "*/",
+      "prefixes": [
+        "*"
+      ]
+    },
+    "contents": [
+      {
+        "line": 11,
+        "column": {
+          "start": 22,
+          "end": 38
+        },
+        "value": "the module",
+        "raw": "/* the module */"
+      }
+    ]
+  }
+]
