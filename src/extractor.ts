@@ -10,14 +10,129 @@ import { getLanguage, getLanguageToken } from "./languages";
 import { Comment, ExtractorOptions, LanguageTokens } from "./types";
 
 /**
- * A token that was found in the line
+ * A comment token that was found in the line
  * @property type The type of token
  * @property pos The position of the token in the line
  */
 type Token = {
-  type: keyof LanguageTokens;
+  type: "singleline" | "multilineStart" | "multilineEnd";
   pos: number;
 };
+
+/**
+ * What the scanner is inside of at a given position
+ * - code: neither a comment nor a string; comment and string tokens are recognised here only
+ * - multiline: inside a multiline comment; only its end token is recognised
+ * - string: inside a string literal opened by `quote`; only the closing quote (and escapes) are recognised
+ */
+type ScanState = { kind: "code" } | { kind: "multiline" } | { kind: "string"; quote: string };
+
+/** The escape character inside string literals; the character after it never closes the string */
+const ESCAPE = "\\";
+
+/**
+ * Finds the longest token of the language that starts at the provided position, considering only
+ * the tokens that can start a comment or a string (e.g. `////` wins over `//`, and `"""` over `"`).
+ * @param languageTokens The tokens of the language
+ * @param line The line to search in
+ * @param pos The position in the line
+ * @returns The matching token type and its text, or undefined when no token starts at the position
+ */
+function matchCodeToken(
+  languageTokens: LanguageTokens,
+  line: string,
+  pos: number
+): { type: "singleline" | "multilineStart" | "string"; text: string } | undefined {
+  const candidates = [
+    { type: "singleline" as const, text: languageTokens.singleline },
+    { type: "multilineStart" as const, text: languageTokens.multilineStart },
+    { type: "string" as const, text: languageTokens.singleQuote },
+    { type: "string" as const, text: languageTokens.doubleQuote },
+    { type: "string" as const, text: languageTokens.backtick },
+  ];
+
+  let best: { type: "singleline" | "multilineStart" | "string"; text: string } | undefined;
+  for (const candidate of candidates) {
+    if (!candidate.text || !line.startsWith(candidate.text, pos)) continue;
+    if (best === undefined || candidate.text.length > best.text.length) {
+      best = { type: candidate.type, text: candidate.text };
+    }
+  }
+  return best;
+}
+
+/**
+ * Scans a line for comment tokens, keeping track of whether each position is code, a comment or a string.
+ * Comment tokens are only recognised in code (never inside a string), and quotes only in code (never inside
+ * a comment). Strings opened by a single or double quote end with the line, so that an unbalanced quote
+ * cannot hide the comments on the lines that follow; backtick strings can span multiple lines.
+ * @param languageTokens The tokens of the language
+ * @param line The line to scan
+ * @param state The state at the start of the line
+ * @returns The comment tokens in the line and the state at the start of the next line
+ */
+function scanLine(
+  languageTokens: LanguageTokens,
+  line: string,
+  state: ScanState
+): { tokens: Token[]; state: ScanState } {
+  const tokens: Token[] = [];
+  let pos = 0;
+
+  while (pos < line.length) {
+    if (state.kind === "multiline") {
+      const end = languageTokens.multilineEnd ? line.indexOf(languageTokens.multilineEnd, pos) : -1;
+      if (end === -1) break;
+      tokens.push({ type: "multilineEnd", pos: end });
+      state = { kind: "code" };
+      pos = end + (languageTokens.multilineEnd?.length ?? 0);
+      continue;
+    }
+
+    if (state.kind === "string") {
+      if (line[pos] === ESCAPE) {
+        pos += 2;
+        continue;
+      }
+      if (line.startsWith(state.quote, pos)) state = { kind: "code" };
+      pos++;
+      continue;
+    }
+
+    const match = matchCodeToken(languageTokens, line, pos);
+    if (match === undefined) {
+      pos++;
+    } else if (match.type === "singleline") {
+      // The rest of the line is the comment
+      tokens.push({ type: "singleline", pos });
+      break;
+    } else if (match.type === "multilineStart") {
+      tokens.push({ type: "multilineStart", pos });
+      state = { kind: "multiline" };
+      pos += match.text.length;
+    } else {
+      state = { kind: "string", quote: match.text };
+      pos += match.text.length;
+    }
+  }
+
+  if (state.kind === "string" && state.quote !== languageTokens.backtick) {
+    state = { kind: "code" };
+  }
+
+  return { tokens, state };
+}
+
+/**
+ * Turns the text after a comment token into the comment value: without trailing whitespace and
+ * without the single space that usually separates the token from the text
+ * @param text The text after the comment token
+ * @returns The comment value
+ */
+function commentValue(text: string): string {
+  const value = text.trimEnd();
+  return value.startsWith(" ") ? value.slice(1) : value;
+}
 
 /**
  * Remove prefixes from multiline comments in case all lines are starting with either
@@ -53,44 +168,17 @@ function stripMultilinePrefixes(comment: Comment): Comment {
 }
 
 /**
- * Tokenizes the provided line into comment related tokens
- * @param languageTokens List of tokens to tokenize the line with
- * @param line The line to tokenize
- * @returns A generator that yields tokens
- */
-function* tokenize(languageTokens: LanguageTokens, line: string): Generator<Token> {
-  const charArr = Array.from(line);
-  let pos = 0;
-  while (pos !== charArr.length) {
-    for (const [key, value] of Object.entries(languageTokens)) {
-      if (value === undefined) continue;
-      let match = true;
-      for (let i = 0; i < value.length; i++) {
-        match = value[i] === charArr[pos + i] && match;
-      }
-
-      if (match) {
-        yield { type: key as keyof LanguageTokens, pos: pos };
-        pos += value.length - 1;
-      }
-    }
-
-    pos++;
-  }
-}
-
-/**
  * Extracts all comments from the provided file and yields them as an async generator
  * @param filePath The path to the file to extract comments from
  * @returns An async generator that yields comments
  */
 export async function* extractComments(filePath: string, options?: ExtractorOptions): AsyncGenerator<Comment> {
-  let currentComment: Comment | undefined;
-  let currentToken: Token | undefined = undefined;
-
   const language = getLanguage(filePath);
   const languageTokens = getLanguageToken(language);
 
+  let state: ScanState = { kind: "code" };
+  let singlelineBlock: Comment | undefined;
+  let multilineComment: Comment | undefined;
   let lineNumber = 1;
 
   const lineReader = readline.createInterface({
@@ -99,141 +187,104 @@ export async function* extractComments(filePath: string, options?: ExtractorOpti
   });
 
   for await (const line of lineReader) {
-    for (const token of tokenize(languageTokens, line)) {
-      const isMultilineEnd = token.type === "multilineEnd";
-      const column = isMultilineEnd
-        ? { start: 0, end: token.pos + (languageTokens[token.type]?.length ?? 0) }
-        : { start: token.pos, end: line.length };
+    const scanned = scanLine(languageTokens, line, state);
+    state = scanned.state;
 
-      const contents = {
-        line: lineNumber,
-        column: column,
-        value: line
-          .substring(
-            column.start + (isMultilineEnd ? 0 : (languageTokens[token.type]?.length ?? 0)),
-            isMultilineEnd ? column.end - (languageTokens[token.type]?.length ?? 0) : column.end
-          )
-          .trimEnd(),
-        raw: line.substring(column.start, column.end),
-      };
-
-      // Remove initial space between the token and the comment
-      if (contents.value.startsWith(" ")) {
-        contents.value = contents.value.slice(1);
-      }
-
-      // Ignore shebangs
-
-      if (language.shebang && contents.line === 1 && contents.raw.startsWith("#!")) {
-        continue;
-      }
-
-      // Return a singleline comment block in case a different token has been found
-      // or the new singleline comment is not on a sequential line
-      if (
-        options?.groupSingleline === true &&
-        currentComment?.type === "singleline" &&
-        (token.type !== "singleline" ||
-          currentComment?.contents[currentComment.contents.length - 1].line !== lineNumber - 1 ||
-          currentComment?.contents[currentComment.contents.length - 1].column.start !== column.start)
-      ) {
-        yield currentComment;
-        currentComment = undefined;
-        currentToken = undefined;
-      }
-
+    for (const token of scanned.tokens) {
       switch (token.type) {
         // We yield every singleline comment as either:
         // - a separate comment
-        // - a comment block
+        // - a comment block (sequential lines, starting at the same column)
         case "singleline": {
-          const entry: Comment = {
-            type: "singleline",
-            format: { start: languageTokens[token.type] },
-            contents: [contents],
+          // Ignore shebangs
+          if (language.shebang && lineNumber === 1 && line.startsWith("#!", token.pos)) break;
+
+          const startToken = languageTokens.singleline ?? "";
+          const contents = {
+            line: lineNumber,
+            column: { start: token.pos, end: line.length },
+            value: commentValue(line.substring(token.pos + startToken.length)),
+            raw: line.substring(token.pos),
           };
 
-          // Groups all sequential singleline comments into a comment block
-          if (options?.groupSingleline === true) {
-            if (currentToken) {
-              currentComment?.contents.push(contents);
-            } else {
-              currentToken = token;
-              currentComment = entry;
-            }
-            // Return individual comment lines
-          } else if (!currentToken) {
-            yield entry;
+          if (options?.groupSingleline !== true) {
+            yield { type: "singleline", format: { start: startToken }, contents: [contents] };
+            break;
+          }
+
+          const last = singlelineBlock?.contents[singlelineBlock.contents.length - 1];
+          if (singlelineBlock && (last?.line !== lineNumber - 1 || last?.column.start !== token.pos)) {
+            yield singlelineBlock;
+            singlelineBlock = undefined;
+          }
+
+          if (singlelineBlock) {
+            singlelineBlock.contents.push(contents);
+          } else {
+            singlelineBlock = { type: "singleline", format: { start: startToken }, contents: [contents] };
           }
           break;
         }
 
         // Start recording all lines until the 'multilineEnd' token is found
-        case "multilineStart":
-          if (!currentToken) {
-            currentToken = token;
-            currentComment = {
-              type: "multiline",
-              format: { start: languageTokens[token.type], end: "" },
-              contents: [contents],
-            };
-            if (languageTokens.multilinePrefixes) {
-              currentComment.format.prefixes = languageTokens.multilinePrefixes;
-            }
+        case "multilineStart": {
+          if (singlelineBlock) {
+            yield singlelineBlock;
+            singlelineBlock = undefined;
+          }
+
+          const startToken = languageTokens.multilineStart ?? "";
+          multilineComment = {
+            type: "multiline",
+            format: { start: startToken, end: "" },
+            contents: [
+              {
+                line: lineNumber,
+                column: { start: token.pos, end: line.length },
+                value: commentValue(line.substring(token.pos + startToken.length)),
+                raw: line.substring(token.pos),
+              },
+            ],
+          };
+          if (languageTokens.multilinePrefixes) {
+            multilineComment.format.prefixes = languageTokens.multilinePrefixes;
           }
           break;
+        }
 
         // Yield the multiline comment when the 'multilineEnd' token is found
-        case "multilineEnd":
-          if (currentToken && currentToken.type === "multilineStart" && currentComment) {
-            const lastContent = currentComment.contents[currentComment.contents.length - 1];
-            currentComment.format.end = languageTokens[token.type];
-            if (lastContent.line === lineNumber) {
-              lastContent.column.end = column.end;
-              lastContent.value = lastContent.raw
-                .substring((languageTokens[token.type]?.length ?? 0) + 1, token.pos - lastContent.column.start)
-                .trimEnd();
+        case "multilineEnd": {
+          if (!multilineComment) break;
 
-              lastContent.raw = line.substring(
-                lastContent.column.start,
-                token.pos + (languageTokens[token.type]?.length ?? 0 + 1)
-              );
-            } else {
-              currentComment.contents.push(contents);
-            }
-            yield stripMultilinePrefixes(currentComment);
-            currentToken = undefined;
-            currentComment = undefined;
-          }
-          break;
+          const endToken = languageTokens.multilineEnd ?? "";
+          const end = token.pos + endToken.length;
+          const lastContent = multilineComment.contents[multilineComment.contents.length - 1];
+          multilineComment.format.end = endToken;
 
-        // Ignore everything between quotes
-        case "singleQuote":
-        case "doubleQuote":
-        case "backtick":
-          if (currentToken) {
-            if (currentToken.type === token.type) {
-              currentToken = undefined;
-              currentComment = undefined;
-            } else {
-              // Ignore the quote or backtick token if it is not the same as the current token
-              // This is needed to address cases where a single quote is used in a comment
-            }
+          if (lastContent.line === lineNumber) {
+            const start = lastContent.column.start + (multilineComment.format.start?.length ?? 0);
+            lastContent.column.end = end;
+            lastContent.value = commentValue(line.substring(start, token.pos));
+            lastContent.raw = line.substring(lastContent.column.start, end);
           } else {
-            currentToken = token;
-            currentComment = undefined;
+            multilineComment.contents.push({
+              line: lineNumber,
+              column: { start: 0, end: end },
+              value: commentValue(line.substring(0, token.pos)),
+              raw: line.substring(0, end),
+            });
           }
+
+          yield stripMultilinePrefixes(multilineComment);
+          multilineComment = undefined;
           break;
+        }
       }
     }
 
-    // We need to append the line to the current multiline comment if it exists
-    if (
-      currentComment?.type === "multiline" &&
-      currentComment.contents.length > 0 &&
-      currentComment.contents[currentComment.contents.length - 1].line !== lineNumber
-    ) {
-      currentComment?.contents.push({
+    // A line without tokens inside a multiline comment is part of that comment
+    if (multilineComment && multilineComment.contents[multilineComment.contents.length - 1].line !== lineNumber) {
+      multilineComment.contents.push({
         line: lineNumber,
         column: { start: 0, end: line.length },
         value: line,
@@ -250,7 +301,7 @@ export async function* extractComments(filePath: string, options?: ExtractorOpti
   }
 
   // Return any remaining singleline comment blocks
-  if (options?.groupSingleline === true && currentComment?.type === "singleline") {
-    yield currentComment;
+  if (singlelineBlock) {
+    yield singlelineBlock;
   }
 }
