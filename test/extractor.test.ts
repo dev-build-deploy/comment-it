@@ -6,6 +6,8 @@ SPDX-License-Identifier: MIT
 import * as fs from "fs";
 
 import { extractComments } from "../src/extractor";
+import { languages } from "../src/languages/languages.json";
+import { Language } from "../src/types";
 
 describe("Languages", () => {
   test("Validate all language test files", async () => {
@@ -500,6 +502,120 @@ Singleline comment`,
     fs.rmSync(filePath);
   });
 });
+
+// The example SPDX headers below are test data, not the license of this file.
+// REUSE-IgnoreStart
+describe("Strings and comments do not leak into each other", () => {
+  /**
+   * Extracts the comment values of the provided input, written to a file with the provided extension
+   * @param extension The file extension (determines the language)
+   * @param input The file contents
+   * @returns One list of values per comment
+   */
+  async function values(extension: string, input: string): Promise<string[][]> {
+    const filePath = `test/files/leak-test${extension}`;
+    fs.writeFileSync(filePath, input, "utf8");
+    try {
+      const result: string[][] = [];
+      for await (const comment of extractComments(filePath)) {
+        result.push(comment.contents.map(entry => entry.value));
+      }
+      return result;
+    } finally {
+      fs.rmSync(filePath);
+    }
+  }
+
+  const languagesWithSingleline = (languages as Language[]).filter(
+    language => language.singleline !== undefined && language.extensions !== undefined
+  );
+
+  it.each(languagesWithSingleline.map(language => [language.name, language]))(
+    "%s: an apostrophe in a singleline comment does not start a string",
+    async (_name, language) => {
+      const token = language.singleline as string;
+      const input = `${token} the file's header\n${token} SPDX-License-Identifier: MIT\n`;
+      expect(await values(language.extensions?.[0] as string, input)).toStrictEqual([
+        ["the file's header"],
+        ["SPDX-License-Identifier: MIT"],
+      ]);
+    }
+  );
+
+  it.each(
+    languagesWithSingleline.filter(language => language.doubleQuote === true).map(language => [language.name, language])
+  )("%s: a singleline token inside a string is not a comment", async (_name, language) => {
+    const token = language.singleline as string;
+    const input = `${token} it's here\nvalue = "a ${token} b" ${token} real\n`;
+    expect(await values(language.extensions?.[0] as string, input)).toStrictEqual([["it's here"], ["real"]]);
+  });
+
+  test("JavaScript: a URL in a string after an apostrophe in a comment", async () => {
+    const input = "// the file's header\nconst url = 'http://example.com'; // real\n";
+    expect(await values(".js", input)).toStrictEqual([["the file's header"], ["real"]]);
+  });
+
+  test("TypeScript: a multiline token inside a string after an apostrophe in a comment", async () => {
+    const input = "// don't\nconst glob = '/* not a comment */'; /* real */\n";
+    expect(await values(".ts", input)).toStrictEqual([["don't"], ["real"]]);
+  });
+
+  test("C: an escaped quote does not end a string", async () => {
+    const input = 'const char *s = "a\\" // not a comment"; // real\n';
+    expect(await values(".c", input)).toStrictEqual([["real"]]);
+  });
+
+  test("C: an escaped backslash ends with the string", async () => {
+    const input = 'const char *s = "C:\\\\"; // real\n';
+    expect(await values(".c", input)).toStrictEqual([["real"]]);
+  });
+
+  test("C: an apostrophe in a multiline comment does not start a string", async () => {
+    const input = '/* the file\'s header */\nconst char *s = "/* not */"; // real\n';
+    expect(await values(".c", input)).toStrictEqual([["the file's header"], ["real"]]);
+  });
+
+  test("C: a multiline comment without spaces keeps its contents", async () => {
+    expect(await values(".c", "/*SPDX-License-Identifier: MIT*/\n")).toStrictEqual([["SPDX-License-Identifier: MIT"]]);
+  });
+
+  test("C: an unterminated string does not swallow the next lines", async () => {
+    const input = "char c = '\"'; x = 'a\n// SPDX-License-Identifier: MIT\n";
+    expect(await values(".c", input)).toStrictEqual([["SPDX-License-Identifier: MIT"]]);
+  });
+
+  test("Go: a backtick string spans multiple lines", async () => {
+    const input = "s := `first\n// not a comment\n` // real\n";
+    expect(await values(".go", input)).toStrictEqual([["real"]]);
+  });
+
+  test("Python: a docstring is followed by a comment", async () => {
+    const input = '"""Module docstring."""\n# SPDX-License-Identifier: MIT\ns = "# not a comment"\n';
+    expect(await values(".py", input)).toStrictEqual([["Module docstring."], ["SPDX-License-Identifier: MIT"]]);
+  });
+
+  test("Python: a multiline docstring", async () => {
+    const input = '"""\nSPDX-License-Identifier: MIT\n"""\n# it\'s done\n';
+    expect(await values(".py", input)).toStrictEqual([["", "SPDX-License-Identifier: MIT", ""], ["it's done"]]);
+  });
+
+  test("Shell: an apostrophe in a comment after a shebang", async () => {
+    const input = '#!/bin/sh\n# it\'s a script\n# SPDX-License-Identifier: MIT\necho "# no"\n';
+    expect(await values(".sh", input)).toStrictEqual([["it's a script"], ["SPDX-License-Identifier: MIT"]]);
+  });
+
+  test("Lua: a multiline comment is not read as a singleline comment", async () => {
+    const input = "--[[ it's\nSPDX-License-Identifier: MIT ]]\n-- real\n";
+    expect(await values(".lua", input)).toStrictEqual([["it's", "SPDX-License-Identifier: MIT"], ["real"]]);
+  });
+
+  test("Asciidoc: a comment block is not read as a singleline comment", async () => {
+    const input = "////\nSPDX-License-Identifier: MIT\n////\n// real\n";
+    expect(await values(".adoc", input)).toStrictEqual([["", "SPDX-License-Identifier: MIT", ""], ["real"]]);
+  });
+});
+
+// REUSE-IgnoreEnd
 
 describe("Extractor options", () => {
   test("Maximum number of lines", async () => {
