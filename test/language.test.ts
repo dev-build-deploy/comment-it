@@ -63,6 +63,22 @@ describe("Languages", () => {
   it.each(testData)("$description", ({ file, isSupported: expectations }) => {
     expect(isSupported(file)).toBe(expectations);
   });
+
+  test("An unsupported file is reported quietly", () => {
+    const spies = (["log", "info", "warn", "error", "debug"] as const).map(method =>
+      jest.spyOn(console, method).mockImplementation(() => undefined)
+    );
+    try {
+      expect(isSupported("not-supported.this")).toBe(false);
+      for (const spy of spies) expect(spy).not.toHaveBeenCalled();
+    } finally {
+      for (const spy of spies) spy.mockRestore();
+    }
+  });
+
+  test("An unsupported file still throws when its language is requested", () => {
+    expect(() => getLanguage("not-supported.this")).toThrow("Language for file 'not-supported.this' not found");
+  });
 });
 
 describe("Language per extension", () => {
