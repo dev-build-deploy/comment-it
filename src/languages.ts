@@ -47,17 +47,28 @@ export function getLanguageToken(language: Language): LanguageTokens {
 }
 
 /**
+ * Finds the language configuration for the provided file.
+ * NOTE: Filename matches have precedence over extension matches.
+ * @param file The file to find the language for
+ * @returns The language configuration, or undefined when no language matches the file
+ */
+function findLanguage(file: string): Language | undefined {
+  const [filenameMatches, extensionMatches] = getLanguageMatches(file);
+  return filenameMatches.length > 0 ? filenameMatches[0] : extensionMatches[0];
+}
+
+/**
  * Retrieve the language configuration for the provided file.
  * NOTE: Filename matches have precedence over extension matches.
  * @param file The file to retrieve the language for
  * @returns The language configuration
+ * @throws Error when no language matches the file (use `isSupported` to check this first)
  */
 export function getLanguage(file: string): Language {
-  const [filenameMatches, extensionMatches] = getLanguageMatches(file);
-  if (filenameMatches.length === 0 && extensionMatches.length === 0)
-    throw new Error(`Language for file '${file}' not found`);
+  const language = findLanguage(file);
+  if (language === undefined) throw new Error(`Language for file '${file}' not found`);
 
-  return filenameMatches.length > 0 ? filenameMatches[0] : extensionMatches[0];
+  return language;
 }
 
 /**
@@ -73,17 +84,12 @@ export function addLanguage(language: Language): void {
 }
 
 /**
- * Determines if the provided file is supported by comment-it
+ * Determines if the provided file is supported by comment-it.
+ * An unknown language is a normal outcome (callers usually read such a file as plain text), so it is
+ * reported through the return value only: nothing is logged.
  * @param file The file to check
  * @returns Whether the file is supported
  */
 export function isSupported(file: string): boolean {
-  try {
-    getLanguage(file);
-  } catch (error) {
-    console.error(`Error determining if the file is supported: ${error}`);
-    return false;
-  }
-
-  return true;
+  return findLanguage(file) !== undefined;
 }
