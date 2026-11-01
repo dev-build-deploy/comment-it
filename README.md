@@ -12,6 +12,9 @@ Extract comment blocks from your files.
 * Simple to use
 * Extracts single- and multiline- comment blocks
 * Supports a range of [languages](./src/languages/languages.json) covering the top 25 languages used in GitHub (+ more)
+* Tells strings and comments apart: a comment token inside a string literal is not a comment, and a quote
+  inside a comment (like the apostrophe in `// the file's header`) does not start a string
+* Quiet: `isSupported()` returns `false` for a file in an unknown language without logging anything
 
 <!-- Hee hee, hid a comment block in here -->
 
